@@ -15,37 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
-### android test
-
-```sh
-[bundle exec] fastlane android test
-```
-
-Runs all the tests
-
 ### android distribute
 
 ```sh
 [bundle exec] fastlane android distribute
 ```
 
-distribute beta to testers through firebase app distribution
-
-### android increase_build_number
-
-```sh
-[bundle exec] fastlane android increase_build_number
-```
-
-
-
-### android build
-
-```sh
-[bundle exec] fastlane android build
-```
-
-
+MiroMangaChapterUpdater
 
 ----
 

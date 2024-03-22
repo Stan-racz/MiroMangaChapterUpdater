@@ -23,6 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
+    //TODO changer le namespace avec une variable pour pas que ça soit visible dans le repo
     namespace "com.example.miro_manga_chapter_update"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_bloc.dart';
-import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_state.dart';
+import '/bloc/add_manga_bloc/add_manga_state.dart';
+
+import '/bloc/add_manga_bloc/add_manga_bloc.dart';
 
 class MangaInput extends StatelessWidget {
   const MangaInput(
