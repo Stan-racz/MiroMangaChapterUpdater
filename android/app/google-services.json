@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14279099144",
+    "project_id": "miro-manga-chapter-updater",
+    "storage_bucket": "miro-manga-chapter-updater.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14279099144:android:02d0081a77d305207522bd",
+        "android_client_info": {
+          "package_name": "com.example.miro_manga_chapter_update"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_5lNuj1oZas0_3ySV8NKkr5bOim2jeWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
