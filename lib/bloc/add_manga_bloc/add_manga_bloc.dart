@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:miro_manga_chapter_update/service/manga_db_service.dart';
 
 import '../../service/manga_info_service.dart';
 import '../../locator.dart';
@@ -10,20 +13,31 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
   AddMangaBloc() : super(AddMangaInitial()) {
     on<AddMangaToDbEvent>(_addMangaToDb);
     on<SearchMangaFromTitleEvent>(_searchMangaFromTitle);
+    on<TestEvent>(_test);
   }
 
   final MangaInfoService mangaInfoService = getIt<MangaInfoService>();
+  final MangaDbService mangaDbService = getIt<MangaDbService>();
 
   void _addMangaToDb(
     AddMangaToDbEvent event,
     Emitter<AddMangaState> emit,
   ) async {
-    // emit(AddMangaLoading());
-
+    if (event.manga.mangadex_id.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Recherchez un manga avant de le sauvegarder",
+          backgroundColor: Colors.red[300],
+          textColor: Colors.white,
+          fontSize: 16);
+      return;
+    }
     try {
-      // Ajoute le manga à la base de données
-
-      // emit(AddMangaSuccess());
+      int insertStatus = await mangaDbService.insertManga(event.manga);
+      if (insertStatus == 0) {
+        emit(MangaAlreadyAdded());
+      } else {
+        emit(AddMangaSuccess());
+      }
     } catch (error) {
       // emit(AddMangaFailure(error.toString()));
     }
@@ -36,21 +50,27 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
     try {
       emit(MangaLoadingState(
         manga: Manga(
-          id: "",
+          mangadex_id: "",
           description: "",
           titre: "",
           status: "",
           annee: "",
         ),
       ));
-      // Cherche les infos du manga via son titre
       final Manga manga =
           await mangaInfoService.getMangaInfoFromTitle(event.title);
       emit(
         MangaFoundByTitleState(manga: manga),
       );
     } catch (error) {
-      emit(MangaNotFoundState(error.toString()));
+      emit(MangaNotFoundState());
     }
+  }
+
+  void _test(
+    TestEvent event,
+    Emitter<AddMangaState> emit,
+  ) {
+    mangaDbService.testTables();
   }
 }

@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "MMCU Debug",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "D:/Documents/Prog/flutter/miro_manga_chapter_update/lib/main.dart",
+            "args": [],
+            "cwd": "D:/Documents/Prog/flutter/miro_manga_chapter_update",
+            "env": {
+                "FLUTTER_DEBUG": "true",
+                "FVM_USE_FLUTTER_SDK": "true"
+            },
+        },
+        {
+            "name": "MMCU Release",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "D:/Documents/Prog/flutter/miro_manga_chapter_update/lib/main.dart",
+            "args": [],
+            "cwd": "D:/Documents/Prog/flutter/miro_manga_chapter_update",
+            "env": {
+                "FVM_USE_FLUTTER_SDK": "true"
+            }
+        }
+    ]
+}

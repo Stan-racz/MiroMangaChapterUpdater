@@ -15,10 +15,24 @@ class AddMangaToDbEvent extends AddMangaEvent {
   List<Object> get props => [manga];
 }
 
+class CreateDbEvent extends AddMangaEvent {
+  CreateDbEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
 class SearchMangaFromTitleEvent extends AddMangaEvent {
   final String title;
 
   SearchMangaFromTitleEvent(this.title);
+
+  @override
+  List<Object> get props => [];
+}
+
+class TestEvent extends AddMangaEvent {
+  TestEvent();
 
   @override
   List<Object> get props => [];

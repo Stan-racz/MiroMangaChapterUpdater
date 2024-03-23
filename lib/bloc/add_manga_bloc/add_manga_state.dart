@@ -31,11 +31,18 @@ final class MangaLoadingState extends AddMangaState {
 }
 
 final class MangaNotFoundState extends AddMangaState {
-  // final Manga manga;
-  final String error;
+  MangaNotFoundState();
 
-  MangaNotFoundState(this.error);
+  @override
+  List<Object> get props => [];
+}
 
+final class AddMangaSuccess extends AddMangaState {
+  @override
+  List<Object> get props => [];
+}
+
+final class MangaAlreadyAdded extends AddMangaState {
   @override
   List<Object> get props => [];
 }

@@ -6,10 +6,6 @@ class StatusCircleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return switch (mangaStatus) {
-    //   case mangaStatus == "ongoing" =>
-
-    // }
     return Container(
       decoration: const BoxDecoration(
         color: Colors.blue,

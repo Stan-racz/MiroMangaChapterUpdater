@@ -15,19 +15,15 @@ class MangaInput extends StatelessWidget {
     return BlocBuilder<AddMangaBloc, AddMangaState>(
       builder: (context, state) {
         return TextFormField(
-          // initialValue: "",
           controller: textController,
           focusNode: focusNode,
           decoration: const InputDecoration(
             icon: Icon(Icons.menu_book),
             labelText: 'Cherchez votre manga avec son titre',
             helperText: 'Exemple: Baki Rahen, Kengan Omega...',
-            // errorText: 'Please ensure the email entered is valid',
           ),
           keyboardType: TextInputType.text,
-          onChanged: (value) {
-            // context.read<MyFormBloc>().add(EmailChanged(email: value));
-          },
+          onChanged: (value) {},
           textInputAction: TextInputAction.next,
         );
       },

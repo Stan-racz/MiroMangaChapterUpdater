@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_bloc.dart';
 
+import '../bloc/add_manga_bloc/add_manga_event.dart';
 import '../model/manga_model.dart';
 import 'manga_add_card_text.dart';
 import 'manga_add_card_title.dart';
@@ -32,16 +35,18 @@ class MangaInfoCardWidget extends StatelessWidget {
                 mangaInfo: manga.status,
                 widgetText: "Status de Publication",
               ),
-              // StatusCircleWidget(mangaStatus: manga.status),
-              const ElevatedButton(
-                style: ButtonStyle(
+              ElevatedButton(
+                style: const ButtonStyle(
                   elevation: MaterialStatePropertyAll(10),
                   backgroundColor:
                       MaterialStatePropertyAll<Color>(Colors.white),
                 ),
-                onPressed:
-                    null, //TODO créer la méthode qui va me permettre d'enregistrer les données du manga récupérées dans la BDD
-                child: Text(
+                onPressed: () {
+                  context.read<AddMangaBloc>().add(
+                        AddMangaToDbEvent(manga),
+                      );
+                },
+                child: const Text(
                   "Ajouter le Manga",
                   style: TextStyle(
                     color: Colors.black,
