@@ -12,12 +12,17 @@ class MangaAddCardTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-      child: Text(
-        mangaTitle,
-        style: GoogleFonts.shojumaru(fontSize: 32),
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
+      child: SizedBox(
+        child: FittedBox(
+          fit: BoxFit.fitHeight,
+          child: Text(
+            "$mangaTitle ",
+            style: GoogleFonts.shojumaru(fontSize: 32),
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
+        ),
       ),
     );
   }

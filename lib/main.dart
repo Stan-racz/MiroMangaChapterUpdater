@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/add_manga_bloc/add_manga_bloc.dart';
 import 'locator.dart';
+import 'service/manga_db_service.dart';
 import 'view/add_manga.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -15,6 +16,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  getIt<MangaDbService>().createTables();
 }
 
 class MangaChapterUpdateApp extends StatelessWidget {
