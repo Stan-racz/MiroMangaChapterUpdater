@@ -1,13 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'view/my_mangas/my_mangas_view.dart';
+import 'view/settings/settings_view.dart';
 
 import 'bloc/add_manga_bloc/add_manga_bloc.dart';
-import 'locator.dart';
-import 'service/manga_db_service.dart';
-import 'view/add_manga.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'locator.dart';
+import 'scaffold.dart';
+import 'service/manga_db_service.dart';
 
 void main() async {
   setupLocator();
@@ -20,9 +22,14 @@ void main() async {
   getIt<MangaDbService>().createTables();
 }
 
-class MangaChapterUpdateApp extends StatelessWidget {
+class MangaChapterUpdateApp extends StatefulWidget {
   const MangaChapterUpdateApp({super.key});
 
+  @override
+  State<MangaChapterUpdateApp> createState() => MangaChapterUpdateAppState();
+}
+
+class MangaChapterUpdateAppState extends State<MangaChapterUpdateApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
@@ -31,10 +38,14 @@ class MangaChapterUpdateApp extends StatelessWidget {
         DeviceOrientation.portraitDown,
       ],
     );
-    return BlocProvider<AddMangaBloc>(
-      create: (BuildContext context) => AddMangaBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AddMangaBloc>(
+          create: (BuildContext context) => AddMangaBloc(),
+        )
+      ],
       child: const MaterialApp(
-        home: AddMangaView(),
+        home: MyScaffold(),
       ),
     );
   }
