@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_bloc.dart';
 
-import '../bloc/add_manga_bloc/add_manga_event.dart';
-import '../model/manga_model.dart';
+import '../../bloc/add_manga_bloc/add_manga_event.dart';
+import '../../model/manga_model.dart';
 import 'manga_add_card_text.dart';
 import 'manga_add_card_title.dart';
 
