@@ -7,3 +7,10 @@
 - Impossible d'accéder au manga préféré de thibalou
 - Sauvegarde des mangas dans la base de données du terminal utilisateur
 - Message d'indication du statut des actions de l'utilisateur (Manga non trouvé, Manga sauvegardé, Manga déjà sauvegardé)
+
+1.0.2 : 
+- Ajout de la barre de navigation
+- Changement de design de la barre d'action 
+- Affichage des mangas sauvegardé dans le terminal utilisateur dans la page Mes Mangas
+- Possibilité de télécharger et sauvegarder dans le terminal utilisateur les 10 derniers chapitres des mangas ajouté par l'utilisateur
+- Affichage des chapitres téléchargés sur rafraichissement de la page Mes Mangas 

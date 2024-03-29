@@ -22,9 +22,7 @@ final class MangaFoundByTitleState extends AddMangaState {
 }
 
 final class MangaLoadingState extends AddMangaState {
-  final Manga manga;
-
-  MangaLoadingState({required this.manga});
+  MangaLoadingState();
 
   @override
   List<Object> get props => [];
