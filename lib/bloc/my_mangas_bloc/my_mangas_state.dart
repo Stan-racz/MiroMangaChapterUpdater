@@ -1,48 +1,43 @@
 import 'package:equatable/equatable.dart';
 
+import '../../model/chapter_model.dart';
 import '../../model/manga_model.dart';
 
-final class AddMangaState extends Equatable {
+final class MyMangasState extends Equatable {
   @override
   List<Object?> get props => throw UnimplementedError();
 }
 
-final class AddMangaInitial extends AddMangaState {
-  @override
-  List<Object> get props => [];
-}
-
-final class MangaFoundByTitleState extends AddMangaState {
-  final Manga manga;
-
-  MangaFoundByTitleState({required this.manga});
+final class MyMangasInitial extends MyMangasState {
+  late final List<Manga> userMangaList;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [userMangaList];
 }
 
-final class MangaLoadingState extends AddMangaState {
-  final Manga manga;
+final class MyMangasRetrivedFromDb extends MyMangasState {
+  final List<Manga> userMangaList;
 
-  MangaLoadingState({required this.manga});
+  MyMangasRetrivedFromDb({required this.userMangaList});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [userMangaList];
 }
 
-final class MangaNotFoundState extends AddMangaState {
-  MangaNotFoundState();
+final class MyMangasRetrivedWithChaptersFromDb extends MyMangasState {
+  final List<Manga> userMangaList;
+  final List<Chapter> userMangaChapterList;
+
+  MyMangasRetrivedWithChaptersFromDb({
+    required this.userMangaList,
+    required this.userMangaChapterList,
+  });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [userMangaList, userMangaChapterList];
 }
 
-final class AddMangaSuccess extends AddMangaState {
-  @override
-  List<Object> get props => [];
-}
-
-final class MangaAlreadyAdded extends AddMangaState {
+final class ChapterReadState extends MyMangasState {
   @override
   List<Object> get props => [];
 }

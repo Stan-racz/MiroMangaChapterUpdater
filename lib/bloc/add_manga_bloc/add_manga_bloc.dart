@@ -23,7 +23,7 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
     AddMangaToDbEvent event,
     Emitter<AddMangaState> emit,
   ) async {
-    if (event.manga.mangadex_id.isEmpty) {
+    if (event.manga.mangadexId.isEmpty) {
       Fluttertoast.showToast(
           msg: "Recherchez un manga avant de le sauvegarder",
           backgroundColor: Colors.red[300],
@@ -48,15 +48,7 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
     Emitter<AddMangaState> emit,
   ) async {
     try {
-      emit(MangaLoadingState(
-        manga: Manga(
-          mangadex_id: "",
-          description: "",
-          titre: "",
-          status: "",
-          annee: "",
-        ),
-      ));
+      emit(MangaLoadingState());
       final Manga manga =
           await mangaInfoService.getMangaInfoFromTitle(event.title);
       emit(

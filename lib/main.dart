@@ -2,8 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'view/my_mangas/my_mangas_view.dart';
-import 'view/settings/settings_view.dart';
+import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_bloc.dart';
 
 import 'bloc/add_manga_bloc/add_manga_bloc.dart';
 import 'firebase_options.dart';
@@ -42,6 +41,9 @@ class MangaChapterUpdateAppState extends State<MangaChapterUpdateApp> {
       providers: [
         BlocProvider<AddMangaBloc>(
           create: (BuildContext context) => AddMangaBloc(),
+        ),
+        BlocProvider<MyMangasBloc>(
+          create: (BuildContext context) => MyMangasBloc(),
         )
       ],
       child: const MaterialApp(

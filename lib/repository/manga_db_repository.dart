@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../model/chapter_model.dart';
 import '../model/manga_model.dart';
 
 abstract class MangaDbRepository {
   Future<void> getTables();
   Future<int> insertManga(Manga manga);
   Future<List<Map<String, dynamic>>> getAllMangas();
+  Future<List<Map<String, dynamic>>> getAllChapters();
   Future<void> testTables();
+  Future<void> insertChapters(List<Chapter> chapterList);
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
@@ -31,7 +34,8 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
                 titre TEXT NOT NULL,
                 description TEXT NOT NULL,
                 annee TEXT NOT NULL,
-                status TEXT NOT NULL
+                status TEXT NOT NULL,
+                cover_link TEXT
               );
             ''');
     await db.execute('''
@@ -67,17 +71,48 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   }
 
   @override
+  Future<List<Map<String, dynamic>>> getAllChapters() async {
+    final db = await openDatabase(mangaDbName);
+    final List<Map<String, Object?>> chapters = await db.query(chapitreTable);
+    return chapters;
+  }
+
+  @override
+  Future<void> insertChapters(List<Chapter> chapterList) async {
+    final db = await openDatabase(mangaDbName);
+    final Batch batch = db.batch();
+    for (var chapter in chapterList) {
+      batch.insert(
+          chapitreTable,
+          {
+            'chapter_id': chapter.chapterId,
+            'titre': chapter.titre,
+            'number': chapter.number,
+            'volume': chapter.volume,
+            'chapitre_lu': chapter.chapitreLu = 0,
+            'mangadex_manga_id': chapter.mangadexMangaId,
+          },
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+    }
+    await batch.commit(noResult: true);
+    return;
+  }
+
+  @override
   Future<void> testTables() async {
     final db = await openDatabase(mangaDbName);
     final List<Map<String, Object?>> tables =
         await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
-    final List<Map<String, Object?>> query = await db.query("Manga");
+    final List<Map<String, Object?>> queryManga = await db.query(mangaTable);
+    final List<Map<String, Object?>> queryChapters =
+        await db.query(chapitreTable);
     final List<Map<String, Object?>> sqlVersion =
         await db.rawQuery('SELECT sqlite_version()');
     debugPrint(db.database.toString());
     debugPrint(tables.toString());
     debugPrint(sqlVersion.toString());
-    debugPrint("Mangas : $query");
+    debugPrint("Mangas : $queryManga");
+    debugPrint("Chapters : $queryChapters");
     return;
   }
 }

@@ -13,7 +13,8 @@ class MangaAddCardText extends StatelessWidget {
         textDirection: TextDirection.ltr,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-          child: Row(
+          child: Flex(
+            direction: Axis.horizontal,
             children: [
               Text(
                 widgetText,
@@ -29,6 +30,7 @@ class MangaAddCardText extends StatelessWidget {
                   textAlign: TextAlign.start,
                   mangaInfo,
                   maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
