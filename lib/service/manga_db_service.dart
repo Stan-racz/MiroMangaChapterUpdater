@@ -46,6 +46,14 @@ class MangaDbService {
     repository.getTables();
   }
 
+  Future<void> updateChapterRead(String chapterId) async {
+    repository.updateChapterRead(chapterId);
+  }
+
+  Future<void> updateChapterUnread(String chapterId) async {
+    repository.updateChapterUnread(chapterId);
+  }
+
   Future<void> testTables() {
     return repository.testTables();
   }

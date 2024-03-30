@@ -14,3 +14,6 @@
 - Affichage des mangas sauvegardé dans le terminal utilisateur dans la page Mes Mangas
 - Possibilité de télécharger et sauvegarder dans le terminal utilisateur les 10 derniers chapitres des mangas ajouté par l'utilisateur
 - Affichage des chapitres téléchargés sur rafraichissement de la page Mes Mangas 
+
+1.0.3 : 
+- Ajout de la possibilité de cocher un chapitre (chapitre non lu en gris/chapitre lu en vert)

@@ -13,6 +13,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     on<GetAllMangasFromDbEvent>(_getAllMangasFromDb);
     on<GetAllMangasChaptersEvent>(_getMangaChaptersFromAPI);
     on<GetAllMangasCoverLinksEvent>(_getAllMangaCoverLinks);
+    on<MyMangasChapterReadEvent>(_chapterRead);
     on<MyMangasTestEvent>(_test);
   }
 
@@ -74,6 +75,25 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     GetAllMangasCoverLinksEvent event,
     Emitter<MyMangasState> emit,
   ) {}
+
+  void _chapterRead(
+    MyMangasChapterReadEvent event,
+    Emitter<MyMangasState> emit,
+  ) async {
+    if (event.chapterRead == true) {
+      await mangaDbService.updateChapterUnread(event.chapterId);
+    } else {
+      await mangaDbService.updateChapterRead(event.chapterId);
+    }
+    List<Manga> userMangas = await mangaDbService.getAllMangas();
+    List<Chapter> userMangasChapters = await mangaDbService.getAllChapters();
+    emit(
+      MyMangasRetrivedWithChaptersFromDb(
+        userMangaChapterList: userMangasChapters,
+        userMangaList: userMangas,
+      ),
+    );
+  }
 
   void _test(
     MyMangasTestEvent event,

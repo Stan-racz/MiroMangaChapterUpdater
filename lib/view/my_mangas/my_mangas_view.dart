@@ -72,7 +72,7 @@ class MyMangasViewState extends State<MyMangasView> {
             Expanded(
               child: BlocConsumer<MyMangasBloc, MyMangasState>(
                 listener: (BuildContext context, MyMangasState state) {
-                  debugPrint(state.toString());
+                  // debugPrint(state.toString());
                 },
                 builder: (BuildContext context, MyMangasState state) {
                   return switch (state) {
@@ -156,6 +156,7 @@ Widget mangaCardWidgetWithChapters(
       ),
     );
   }
+
   return ListView.separated(
     itemCount: mangaWidgetList.length,
     itemBuilder: (context, index) => mangaWidgetList[index],

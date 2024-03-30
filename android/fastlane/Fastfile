@@ -46,9 +46,6 @@ platform :android do
     )
   end
 
-  lane :increase_build_number do
-    increment_build_number
-  end
   lane :build do
     sh "fvm flutter build apk"
   end
