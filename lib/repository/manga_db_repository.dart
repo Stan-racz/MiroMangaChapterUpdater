@@ -96,7 +96,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
             'chapitre_lu': chapter.chapitreLu = 0,
             'mangadex_manga_id': chapter.mangadexMangaId,
           },
-          conflictAlgorithm: ConflictAlgorithm.ignore);
+          conflictAlgorithm: ConflictAlgorithm.rollback);
     }
     await batch.commit(noResult: true);
     return;
