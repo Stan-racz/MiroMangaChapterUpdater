@@ -13,9 +13,9 @@ final class AddMangaInitial extends AddMangaState {
 }
 
 final class MangaFoundByTitleState extends AddMangaState {
-  final Manga manga;
+  final List<Manga> mangasFound;
 
-  MangaFoundByTitleState({required this.manga});
+  MangaFoundByTitleState({required this.mangasFound});
 
   @override
   List<Object> get props => [];

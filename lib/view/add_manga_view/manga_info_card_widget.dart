@@ -17,53 +17,49 @@ class MangaInfoCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: const Color(0xffE5E5E5),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width - 15,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              MangaAddCardTitle(mangaTitle: manga.titre),
-              MangaAddCardText(
-                widgetText: "Description",
-                mangaInfo: manga.description,
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Column(
+          children: [
+            MangaAddCardTitle(mangaTitle: manga.titre),
+            MangaAddCardText(
+              widgetText: "Description",
+              mangaInfo: manga.description,
+            ),
+            MangaAddCardText(
+              widgetText: "Année de publication",
+              mangaInfo: manga.annee,
+            ),
+            MangaAddCardText(
+              mangaInfo: manga.status,
+              widgetText: "Status de Publication",
+            ),
+            ElevatedButton(
+              style: const ButtonStyle(
+                elevation: MaterialStatePropertyAll(10),
+                backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
               ),
-              MangaAddCardText(
-                widgetText: "Année de publication",
-                mangaInfo: manga.annee,
-              ),
-              MangaAddCardText(
-                mangaInfo: manga.status,
-                widgetText: "Status de Publication",
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                  elevation: MaterialStatePropertyAll(10),
-                  backgroundColor:
-                      MaterialStatePropertyAll<Color>(Colors.white),
-                ),
-                onPressed: () {
-                  if (manga.mangadexId.isEmpty) {
-                    Fluttertoast.showToast(
-                        msg: "Recherchez un manga avant de le sauvegarder",
-                        backgroundColor: Colors.red[300],
-                        textColor: Colors.white,
-                        fontSize: 16);
-                    return;
-                  }
-                  context.read<AddMangaBloc>().add(
-                        AddMangaToDbEvent(manga),
-                      );
-                },
-                child: const Text(
-                  "Ajouter le Manga",
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+              onPressed: () {
+                if (manga.mangadexId.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: "Recherchez un manga avant de le sauvegarder",
+                      backgroundColor: Colors.red[300],
+                      textColor: Colors.white,
+                      fontSize: 16);
+                  return;
+                }
+                context.read<AddMangaBloc>().add(
+                      AddMangaToDbEvent(manga),
+                    );
+              },
+              child: const Text(
+                "Ajouter le Manga",
+                style: TextStyle(
+                  color: Colors.black,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

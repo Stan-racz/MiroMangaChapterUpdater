@@ -32,12 +32,16 @@ class MangaDbService {
     return chapterList;
   }
 
+  Future<void> updateCoverLink(String coverLink, String mangadexMangaId) async {
+    return await repository.updateCoverLink(coverLink, mangadexMangaId);
+  }
+
   Future<int> insertManga(Manga manga) async {
     final int mangaInsertStatus = await repository.insertManga(manga);
     return mangaInsertStatus;
   }
 
-  Future<void> updateBatchMangaChapters(List<Chapter> chapterList) async {
+  Future<void> insertBatchMangaChapters(List<Chapter> chapterList) async {
     await repository.insertChapters(chapterList);
     return;
   }
@@ -47,14 +51,14 @@ class MangaDbService {
   }
 
   Future<void> updateChapterRead(String chapterId) async {
-    repository.updateChapterRead(chapterId);
+    await repository.updateChapterRead(chapterId);
   }
 
   Future<void> updateChapterUnread(String chapterId) async {
-    repository.updateChapterUnread(chapterId);
+    await repository.updateChapterUnread(chapterId);
   }
 
-  Future<void> testTables() {
-    return repository.testTables();
+  Future<void> testTables() async {
+    return await repository.testTables();
   }
 }

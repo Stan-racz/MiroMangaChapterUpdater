@@ -19,7 +19,7 @@ class MangaCardState extends State<MangaCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
+      padding: const EdgeInsets.fromLTRB(3.0, 0, 3.0, 0),
       child: Card(
         color: const Color(0xffE5E5E5),
         elevation: 5,

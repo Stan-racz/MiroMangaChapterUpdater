@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../locator.dart';
 import '../../model/chapter_model.dart';
+import '../../model/cover_model.dart';
 import '../../model/manga_model.dart';
 import '../../service/manga_db_service.dart';
 import '../../service/manga_info_service.dart';
@@ -64,17 +66,31 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
         chapterList
             .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
       }
-      await mangaDbService.updateBatchMangaChapters(chapterList);
+      await mangaDbService.insertBatchMangaChapters(chapterList);
+      emit(MyMangasRetrivedWithChaptersFromDb(
+          userMangaList: userMangas, userMangaChapterList: chapterList));
       //TODO maybe ajouter un state qui dit que j'ai bien inséré mes chapitres
     } catch (error) {
-      // emit(AddMangaFailure(error.toString()));
+      debugPrint("_getMangaChaptersFromAPI error : ${error.toString()}");
     }
   }
 
   void _getAllMangaCoverLinks(
     GetAllMangasCoverLinksEvent event,
     Emitter<MyMangasState> emit,
-  ) {}
+  ) async {
+    List<Manga> userMangas = await mangaDbService.getAllMangas();
+
+    for (var manga in userMangas) {
+      if (manga.coverId != null) {
+        Cover cover =
+            await mangaInfoService.getCoverFromCoverId(manga.coverId!);
+        String coverLink =
+            "https://mangadex.org/covers/${manga.mangadexId}/${cover.data?.attributes?.fileName}";
+        await mangaDbService.updateCoverLink(coverLink, manga.mangadexId);
+      }
+    }
+  }
 
   void _chapterRead(
     MyMangasChapterReadEvent event,

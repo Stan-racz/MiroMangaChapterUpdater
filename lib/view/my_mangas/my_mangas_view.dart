@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/my_mangas_bloc/my_mangas_bloc.dart';
@@ -46,7 +47,19 @@ class MyMangasViewState extends State<MyMangasView> {
                       .read<MyMangasBloc>()
                       .add(GetAllMangasCoverLinksEvent());
                 },
-              )
+              ),
+              PopupMenuItem(
+                child: const Text("Checker le status de mes mangas"),
+                onTap: () {
+                  //TODO : MMCU-15
+                  Fluttertoast.showToast(
+                      msg:
+                          "Work in progress! Dispo dans les prochaines releases",
+                      backgroundColor: Colors.blue[400],
+                      textColor: Colors.white,
+                      fontSize: 16);
+                },
+              ),
             ],
           )
         ],

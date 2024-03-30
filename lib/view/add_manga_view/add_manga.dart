@@ -49,42 +49,58 @@ class AddMangaViewState extends State<AddMangaView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(3),
         child: Align(
           alignment: const Alignment(0, 0),
           child: Column(
             children: [
               MangaInput(
-                focusNode: _mangaFocusNode,
+                mangaFocusNode: _mangaFocusNode,
                 textController: _textController,
               ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                  elevation: MaterialStatePropertyAll(10),
-                  backgroundColor: MaterialStatePropertyAll<Color>(
-                    Color(0xffE5E5E5),
-                  ),
-                ),
-                onPressed: () {
-                  if (_textController.text != "") {
-                    context.read<AddMangaBloc>().add(
-                          SearchMangaFromTitleEvent(
-                            _textController.text,
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: BlocConsumer<AddMangaBloc, AddMangaState>(
+                  listener: (BuildContext context, AddMangaState state) {
+                    debugPrint("mdr state $state");
+                  },
+                  builder: (BuildContext context, AddMangaState state) {
+                    if (state is MangaNotFoundState) {
+                      Fluttertoast.showToast(
+                          msg: "Erreur : Manga non trouvé",
+                          backgroundColor: Colors.red[300],
+                          textColor: Colors.white,
+                          fontSize: 16);
+                    } else if (state is AddMangaSuccess) {
+                      Fluttertoast.showToast(
+                          msg: "Manga sauvegardé",
+                          backgroundColor: Colors.grey,
+                          textColor: Colors.black,
+                          fontSize: 16);
+                    } else if (state is MangaAlreadyAdded) {
+                      Fluttertoast.showToast(
+                          msg: "Manga déjà sauvegardé",
+                          backgroundColor: Colors.red[300],
+                          textColor: Colors.white,
+                          fontSize: 16);
+                    }
+                    return switch (state) {
+                      AddMangaInitial() => const SizedBox(),
+                      MangaFoundByTitleState() => ListView.separated(
+                          itemCount: state.mangasFound.length,
+                          itemBuilder: (context, index) => MangaInfoCardWidget(
+                            manga: state.mangasFound[index],
                           ),
-                        );
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "S'il vous plait entrez un manga",
-                        backgroundColor: Colors.red[300],
-                        textColor: Colors.white,
-                        fontSize: 16);
-                  }
-                },
-                child: const Text(
-                  "Rechercher",
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                      MangaLoadingState() => const SizedBox(),
+                      AddMangaState() => const SizedBox(),
+                    };
+                  },
                 ),
               ),
               if (kDebugMode)
@@ -107,42 +123,6 @@ class AddMangaViewState extends State<AddMangaView> {
                     ),
                   ),
                 ),
-              const SizedBox(
-                height: 10,
-              ),
-              BlocConsumer<AddMangaBloc, AddMangaState>(
-                listener: (BuildContext context, AddMangaState state) {
-                  debugPrint("mdr state $state");
-                },
-                builder: (BuildContext context, AddMangaState state) {
-                  if (state is MangaNotFoundState) {
-                    Fluttertoast.showToast(
-                        msg: "Erreur : Manga non trouvé",
-                        backgroundColor: Colors.red[300],
-                        textColor: Colors.white,
-                        fontSize: 16);
-                  } else if (state is AddMangaSuccess) {
-                    Fluttertoast.showToast(
-                        msg: "Manga sauvegardé",
-                        backgroundColor: Colors.grey,
-                        textColor: Colors.black,
-                        fontSize: 16);
-                  } else if (state is MangaAlreadyAdded) {
-                    Fluttertoast.showToast(
-                        msg: "Manga déjà sauvegardé",
-                        backgroundColor: Colors.red[300],
-                        textColor: Colors.white,
-                        fontSize: 16);
-                  }
-                  return switch (state) {
-                    AddMangaInitial() => const SizedBox(),
-                    MangaFoundByTitleState() =>
-                      MangaInfoCardWidget(manga: state.manga),
-                    MangaLoadingState() => const SizedBox(),
-                    AddMangaState() => const SizedBox(),
-                  };
-                },
-              )
             ],
           ),
         ),
