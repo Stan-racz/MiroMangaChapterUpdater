@@ -17,3 +17,6 @@
 
 1.0.3 : 
 - Ajout de la possibilité de cocher un chapitre (chapitre non lu en gris/chapitre lu en vert)
+- Rafraichissement des chapitres téléchargés automatiques
+- Affichage des multiples mangas qui peuvent matcher la recherche de l'utilisateur
+- Téléchargement des covers (rafraichissement après scroll vers le bas dans la page Mes Mangas)

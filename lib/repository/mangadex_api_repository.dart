@@ -4,6 +4,7 @@ import '../api_path.dart';
 abstract class MangaInfoRepository {
   Future<Response> getMangaInfoFromTitle(String title);
   Future<Response> getMangaChaptersFromMangaId(String mangadexMangaId);
+  Future<Response> getCoverFromCoverId(String coverId);
 }
 
 class MangaInfoRepositoryImpl implements MangaInfoRepository {
@@ -22,6 +23,12 @@ class MangaInfoRepositoryImpl implements MangaInfoRepository {
     final response = await dio.get(
       getMangaChaptersFromMangaIdPath(mangadexMangaId),
     );
+    return response;
+  }
+
+  @override
+  Future<Response> getCoverFromCoverId(String coverId) async {
+    final response = await dio.get(getCoverLinkFromCoverId(coverId));
     return response;
   }
 }

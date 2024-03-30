@@ -49,10 +49,10 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
   ) async {
     try {
       emit(MangaLoadingState());
-      final Manga manga =
+      final List<Manga> mangasFound =
           await mangaInfoService.getMangaInfoFromTitle(event.title);
       emit(
-        MangaFoundByTitleState(manga: manga),
+        MangaFoundByTitleState(mangasFound: mangasFound),
       );
     } catch (error) {
       emit(MangaNotFoundState());

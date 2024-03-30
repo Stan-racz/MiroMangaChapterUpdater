@@ -13,6 +13,7 @@ abstract class MangaDbRepository {
   Future<void> updateChapterRead(String chapterId);
   Future<void> updateChapterUnread(String chapterId);
   Future<void> insertChapters(List<Chapter> chapterList);
+  Future<void> updateCoverLink(String coverLink, String mangadexMangaId);
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
@@ -37,6 +38,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
                 description TEXT NOT NULL,
                 annee TEXT NOT NULL,
                 status TEXT NOT NULL,
+                cover_id TEXT NOT NULL,
                 cover_link TEXT
               );
             ''');
@@ -109,8 +111,6 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
       where: 'chapter_id = ?',
       whereArgs: [chapterId],
     );
-    // await db.rawUpdate(
-    //     "UPDATE Chapitre SET chapitre_lu = 1 WHERE id = ?;", [chapterId]);
     return;
   }
 
@@ -123,6 +123,18 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
       where: 'chapter_id = ?',
       whereArgs: [chapterId],
     );
+  }
+
+  @override
+  Future<void> updateCoverLink(String coverLink, String mangadexMangaId) async {
+    final db = await openDatabase(mangaDbName);
+    await db.update(
+      mangaTable,
+      {'cover_link': coverLink},
+      where: 'mangadex_id = ?',
+      whereArgs: [mangadexMangaId],
+    );
+    return;
   }
 
   @override
