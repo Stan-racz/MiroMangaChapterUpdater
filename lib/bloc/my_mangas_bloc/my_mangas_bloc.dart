@@ -13,7 +13,7 @@ import 'my_mangas_state.dart';
 class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
   MyMangasBloc() : super(MyMangasInitial()) {
     on<GetAllMangasFromDbEvent>(_getAllMangasFromDb);
-    on<GetAllMangasChaptersEvent>(_getMangaChaptersFromAPI);
+    on<GetAllMangasChaptersEvent>(_getMangaChapters);
     on<GetAllMangasCoverLinksEvent>(_getAllMangaCoverLinks);
     on<MyMangasChapterReadEvent>(_chapterRead);
     on<MyMangasTestEvent>(_test);
@@ -46,7 +46,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     }
   }
 
-  void _getMangaChaptersFromAPI(
+  void _getMangaChapters(
     GetAllMangasChaptersEvent event,
     Emitter<MyMangasState> emit,
   ) async {
@@ -67,9 +67,9 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
             .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
       }
       await mangaDbService.insertBatchMangaChapters(chapterList);
+      List<Chapter> dbChapterList = await mangaDbService.getAllChapters();
       emit(MyMangasRetrivedWithChaptersFromDb(
-          userMangaList: userMangas, userMangaChapterList: chapterList));
-      //TODO maybe ajouter un state qui dit que j'ai bien inséré mes chapitres
+          userMangaList: userMangas, userMangaChapterList: dbChapterList));
     } catch (error) {
       debugPrint("_getMangaChaptersFromAPI error : ${error.toString()}");
     }
