@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../model/chapter_model.dart';
+import '../../model/manga_model.dart';
 import '../add_manga_view/manga_add_card_text.dart';
 import '../add_manga_view/manga_add_card_title.dart';
 import 'chapter_widget.dart';
-import '../../model/manga_model.dart';
 
 // ignore: must_be_immutable
 class MangaCardWidget extends StatefulWidget {
@@ -58,9 +58,7 @@ class MangaCardState extends State<MangaCardWidget> {
             Column(
               children: widget.chapterList
                       ?.map((chapter) => ChapterWidget(
-                            chapterNumber: chapter.number,
-                            chapterTitle: chapter.titre,
-                            chapterRead: chapter.chapitreLu ?? 0,
+                            chapter: chapter,
                           ))
                       .toList() ??
                   [],

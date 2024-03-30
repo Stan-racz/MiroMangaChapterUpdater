@@ -10,13 +10,15 @@ abstract class MangaDbRepository {
   Future<List<Map<String, dynamic>>> getAllMangas();
   Future<List<Map<String, dynamic>>> getAllChapters();
   Future<void> testTables();
+  Future<void> updateChapterRead(String chapterId);
+  Future<void> updateChapterUnread(String chapterId);
   Future<void> insertChapters(List<Chapter> chapterList);
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
   static const String mangaDbName = "manga_bdd.db";
   static const String mangaTable = "Manga";
-  static const String chapitreTable = "Chapitre";
+  static const String chapterTable = "Chapitre";
   static const int mangaDbVersion = 1;
 
   Database? db;
@@ -39,7 +41,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
               );
             ''');
     await db.execute('''
-              CREATE TABLE IF NOT EXISTS $chapitreTable (
+              CREATE TABLE IF NOT EXISTS $chapterTable (
                 chapter_id TEXT PRIMARY KEY NOT NULL,
                 titre TEXT NOT NULL,
                 number TEXT NOT NULL,
@@ -73,7 +75,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   @override
   Future<List<Map<String, dynamic>>> getAllChapters() async {
     final db = await openDatabase(mangaDbName);
-    final List<Map<String, Object?>> chapters = await db.query(chapitreTable);
+    final List<Map<String, Object?>> chapters = await db.query(chapterTable);
     return chapters;
   }
 
@@ -83,7 +85,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     final Batch batch = db.batch();
     for (var chapter in chapterList) {
       batch.insert(
-          chapitreTable,
+          chapterTable,
           {
             'chapter_id': chapter.chapterId,
             'titre': chapter.titre,
@@ -99,13 +101,38 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   }
 
   @override
+  Future<void> updateChapterRead(String chapterId) async {
+    final db = await openDatabase(mangaDbName);
+    await db.update(
+      chapterTable,
+      {'chapitre_lu': 1},
+      where: 'chapter_id = ?',
+      whereArgs: [chapterId],
+    );
+    // await db.rawUpdate(
+    //     "UPDATE Chapitre SET chapitre_lu = 1 WHERE id = ?;", [chapterId]);
+    return;
+  }
+
+  @override
+  Future<void> updateChapterUnread(String chapterId) async {
+    final db = await openDatabase(mangaDbName);
+    await db.update(
+      chapterTable,
+      {'chapitre_lu': 0},
+      where: 'chapter_id = ?',
+      whereArgs: [chapterId],
+    );
+  }
+
+  @override
   Future<void> testTables() async {
     final db = await openDatabase(mangaDbName);
     final List<Map<String, Object?>> tables =
         await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
     final List<Map<String, Object?>> queryManga = await db.query(mangaTable);
     final List<Map<String, Object?>> queryChapters =
-        await db.query(chapitreTable);
+        await db.query(chapterTable);
     final List<Map<String, Object?>> sqlVersion =
         await db.rawQuery('SELECT sqlite_version()');
     debugPrint(db.database.toString());

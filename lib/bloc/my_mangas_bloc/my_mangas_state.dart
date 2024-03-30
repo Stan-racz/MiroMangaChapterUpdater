@@ -24,6 +24,15 @@ final class MyMangasRetrivedFromDb extends MyMangasState {
   List<Object> get props => [userMangaList];
 }
 
+final class MyMangasChapterStatusUpdatedFromDb extends MyMangasState {
+  final List<Chapter> userChapterList;
+
+  MyMangasChapterStatusUpdatedFromDb({required this.userChapterList});
+
+  @override
+  List<Object> get props => [userChapterList];
+}
+
 final class MyMangasRetrivedWithChaptersFromDb extends MyMangasState {
   final List<Manga> userMangaList;
   final List<Chapter> userMangaChapterList;
