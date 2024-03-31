@@ -87,16 +87,17 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     final Batch batch = db.batch();
     for (var chapter in chapterList) {
       batch.insert(
-          chapterTable,
-          {
-            'chapter_id': chapter.chapterId,
-            'titre': chapter.titre,
-            'number': chapter.number,
-            'volume': chapter.volume,
-            'chapitre_lu': chapter.chapitreLu = 0,
-            'mangadex_manga_id': chapter.mangadexMangaId,
-          },
-          conflictAlgorithm: ConflictAlgorithm.rollback);
+        chapterTable,
+        {
+          'chapter_id': chapter.chapterId,
+          'titre': chapter.titre,
+          'number': chapter.number,
+          'volume': chapter.volume,
+          'chapitre_lu': chapter.chapitreLu = 0,
+          'mangadex_manga_id': chapter.mangadexMangaId,
+        },
+        conflictAlgorithm: ConflictAlgorithm.ignore,
+      );
     }
     await batch.commit(noResult: true);
     return;
