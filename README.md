@@ -1,8 +1,8 @@
 # miro_manga_chapter_update
 
-Flutter App qui permet de savoir lorsque les derniers chapitres d'un manga qu'un utilisateur lit sont sortis grâce à l'API Mangadex. Certains chapitres de mangas peuvent ne pas être mis à jours correctement.
+Flutter App qui permet de savoir lorsque les derniers chapitres d'un manga qu'un utilisateur lit sont sortis grâce à l'API Mangadex. La source de données de Mangadex étant mise à jour par des bénévoles, certains chapitres de mangas peuvent ne pas être mis en ligne correctement.
 
-Flutter App Allowing you to know when the latest chapters of a manga the user is reading are released thanks to Mangadex's API. Some manga chapters might not be properly updated.
+Flutter App Allowing you to know when the latest chapters of a manga the user is reading are released thanks to Mangadex's API. As Mangadex datasource is updated by volunteers, some manga chapters might not be up to date/uploaded correctly.
 
 ## Trello RoadMap
 
