@@ -5,12 +5,12 @@ import '../locator.dart';
 import '../model/manga_model.dart';
 
 class MangaDbService {
-  final MangaDbRepository repository = getIt<MangaDbRepository>();
+  final MangaDbRepository dbRepository = getIt<MangaDbRepository>();
 
   MangaDbService();
 
   Future<List<Manga>> getAllMangas() async {
-    final List<Map<String, dynamic>> mangas = await repository.getAllMangas();
+    final List<Map<String, dynamic>> mangas = await dbRepository.getAllMangas();
     List<Manga> mangaList = [];
     for (Map<String, dynamic> manga in mangas) {
       mangaList.add(
@@ -22,7 +22,7 @@ class MangaDbService {
 
   Future<List<Chapter>> getAllChapters() async {
     final List<Map<String, dynamic>> chapters =
-        await repository.getAllChapters();
+        await dbRepository.getAllChapters();
     List<Chapter> chapterList = [];
     for (Map<String, dynamic> chapter in chapters) {
       chapterList.add(
@@ -33,32 +33,32 @@ class MangaDbService {
   }
 
   Future<void> updateCoverLink(String coverLink, String mangadexMangaId) async {
-    return await repository.updateCoverLink(coverLink, mangadexMangaId);
+    return await dbRepository.updateCoverLink(coverLink, mangadexMangaId);
   }
 
   Future<int> insertManga(Manga manga) async {
-    final int mangaInsertStatus = await repository.insertManga(manga);
+    final int mangaInsertStatus = await dbRepository.insertManga(manga);
     return mangaInsertStatus;
   }
 
   Future<void> insertBatchMangaChapters(List<Chapter> chapterList) async {
-    await repository.insertChapters(chapterList);
+    await dbRepository.insertChapters(chapterList);
     return;
   }
 
   Future<void> createTables() async {
-    repository.getTables();
+    dbRepository.getTables();
   }
 
   Future<void> updateChapterRead(String chapterId) async {
-    await repository.updateChapterRead(chapterId);
+    await dbRepository.updateChapterRead(chapterId);
   }
 
   Future<void> updateChapterUnread(String chapterId) async {
-    await repository.updateChapterUnread(chapterId);
+    await dbRepository.updateChapterUnread(chapterId);
   }
 
   Future<void> testTables() async {
-    return await repository.testTables();
+    return await dbRepository.testTables();
   }
 }

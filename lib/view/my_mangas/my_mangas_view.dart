@@ -162,6 +162,9 @@ Widget mangaCardWidgetWithChapters(
         chaptersOfManga.add(chapter);
       }
     }
+    chaptersOfManga.sort(
+      (a, b) => int.parse(b.number).compareTo(int.parse(a.number)),
+    );
     mangaWidgetList.add(
       MangaCardWidget(
         manga: manga,
