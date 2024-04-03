@@ -1,3 +1,6 @@
+1.0.3 (2) : 
+- Correction d'un bug qui lorsqu'un nouveau chapitre sortait et était sauvegardé dans le terminal utilisateur, il apparraissait à la fin de la liste des chapitres du manga
+
 1.0.3 : 
 - Ajout de la possibilité de cocher un chapitre (chapitre non lu en gris/chapitre lu en vert)
 - Rafraichissement des chapitres téléchargés automatiques
