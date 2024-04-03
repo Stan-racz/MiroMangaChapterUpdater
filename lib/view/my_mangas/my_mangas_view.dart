@@ -163,7 +163,7 @@ Widget mangaCardWidgetWithChapters(
       }
     }
     chaptersOfManga.sort(
-      (a, b) => int.parse(b.number).compareTo(int.parse(a.number)),
+      (a, b) => double.parse(b.number).compareTo(double.parse(a.number)),
     );
     mangaWidgetList.add(
       MangaCardWidget(
