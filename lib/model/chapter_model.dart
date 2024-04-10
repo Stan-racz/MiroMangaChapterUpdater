@@ -16,12 +16,20 @@ class Chapter {
   });
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
+    List<dynamic> relationships = json['relationships'];
+    String mangadexMangaId = "";
+    for (Map<String, dynamic> relationship in relationships) {
+      if (relationship['type'] == "manga") {
+        mangadexMangaId = relationship['id'];
+        //TODO improve the conversion of api data into models with the correct model from json to dart
+      }
+    }
     return Chapter(
       chapterId: json['id'] ?? "",
       titre: json['attributes']['title'] ?? "",
       number: json['attributes']['chapter'] ?? "",
       volume: json['attributes']['volume'] ?? "",
-      mangadexMangaId: json['relationships'][1]['id'],
+      mangadexMangaId: mangadexMangaId,
     );
   }
 
