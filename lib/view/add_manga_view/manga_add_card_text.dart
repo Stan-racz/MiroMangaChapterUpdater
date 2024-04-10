@@ -12,7 +12,7 @@ class MangaAddCardText extends StatelessWidget {
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
+          padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
           child: Flex(
             direction: Axis.horizontal,
             children: [

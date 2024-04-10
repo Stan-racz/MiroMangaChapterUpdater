@@ -6,14 +6,17 @@ void main() {
   testWidgets(
     "MangaAddCardText has a widget text and some manga infos",
     (WidgetTester tester) async {
+      const String widgetText = "description";
+      const String mangaInfo = "The sixth part of the Baki series.";
+
       await tester.pumpWidget(
         const MangaAddCardText(
-          widgetText: "description",
-          mangaInfo: "The sixth part of the Baki series.",
+          widgetText: widgetText,
+          mangaInfo: mangaInfo,
         ),
       );
-      final widgetTextFinder = find.text('description');
-      final mangaInfoFinder = find.text('The sixth part of the Baki series.');
+      final widgetTextFinder = find.text(widgetText);
+      final mangaInfoFinder = find.text(mangaInfo);
 
       expect(widgetTextFinder, findsOneWidget);
       expect(mangaInfoFinder, findsOneWidget);
@@ -23,14 +26,16 @@ void main() {
   testWidgets(
     "MangaAddCardText has a widget text and no manga info",
     (WidgetTester tester) async {
+      const String widgetText = "description";
+      const String mangaInfo = "";
       await tester.pumpWidget(
         const MangaAddCardText(
           mangaInfo: "description",
           widgetText: "",
         ),
       );
-      final widgetTextFinder = find.text('description');
-      final mangaInfoFinder = find.text('');
+      final widgetTextFinder = find.text(widgetText);
+      final mangaInfoFinder = find.text(mangaInfo);
 
       expect(widgetTextFinder, findsOneWidget);
       expect(mangaInfoFinder, findsOneWidget);

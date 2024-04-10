@@ -16,7 +16,7 @@ class MangaInfoCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color(0xffE5E5E5),
+      color: const Color(0xffFBFAFA),
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Column(
