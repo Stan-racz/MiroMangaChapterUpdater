@@ -21,6 +21,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     on<MyMangasChapterReadEvent>(_chapterRead);
     on<CheckForNewMangaChaptersEvent>(_checkForNewChaptersAndNotifyUser);
     on<MyMangasTestEvent>(_test);
+    on<DeleteMangaEvent>(_deleteManga);
   }
 
   final MangaInfoService mangaInfoService = getIt<MangaInfoService>();
@@ -86,7 +87,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     List<Manga> userMangas = await mangaDbService.getAllMangas();
 
     for (var manga in userMangas) {
-      if (manga.coverId != null) {
+      if (manga.coverId != null && manga.coverLink == null) {
         Cover cover =
             await mangaInfoService.getCoverFromCoverId(manga.coverId!);
         String coverLink =
@@ -176,6 +177,26 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     dbChapterList = await mangaDbService.getAllChapters();
     emit(MyMangasRetrivedWithChaptersFromDb(
         userMangaList: userMangas, userMangaChapterList: dbChapterList));
+  }
+
+  void _deleteManga(
+    DeleteMangaEvent event,
+    Emitter<MyMangasState> emit,
+  ) async {
+    await mangaDbService.deleteMangaAndChapters(event.mangadexMangaId);
+    List<Manga> userMangas = await mangaDbService.getAllMangas();
+    List<Chapter> userMangasChapters = await mangaDbService.getAllChapters();
+
+    emit(
+      MyMangasRetrivedWithChaptersFromDb(
+        userMangaChapterList: userMangasChapters,
+        userMangaList: userMangas,
+      ),
+    );
+    // emit(MangaDeletedState(
+    //   userMangaChapterList: userMangasChapters,
+    //   userMangaList: userMangas,
+    // ));
   }
 
   void _test(

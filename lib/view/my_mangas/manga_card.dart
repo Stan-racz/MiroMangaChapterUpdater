@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bloc/my_mangas_bloc/my_mangas_bloc.dart';
+import '../../bloc/my_mangas_bloc/my_mangas_event.dart';
 import '../../model/chapter_model.dart';
 import '../../model/manga_model.dart';
 import '../add_manga_view/manga_add_card_text.dart';
 import '../add_manga_view/manga_add_card_title.dart';
 import 'chapter_widget.dart';
+import 'manga_cover_big.dart';
 
 // ignore: must_be_immutable
 class MangaCardWidget extends StatefulWidget {
@@ -32,8 +36,21 @@ class MangaCardState extends State<MangaCardWidget> {
                   child: SizedBox(
                       width: 75,
                       child: widget.manga.coverLink != null
-                          ? Image.network(widget.manga.coverLink!)
-                          : Image.asset('assets/cover_placeholder.jpeg')),
+                          ? GestureDetector(
+                              child: Image.network(widget.manga.coverLink!),
+                              onTap: () => _gotoMangaCoverBigPage(
+                                context,
+                                widget.manga,
+                              ),
+                            )
+                          : GestureDetector(
+                              child:
+                                  Image.asset('assets/cover_placeholder.jpeg'),
+                              onTap: () => _gotoMangaCoverBigPage(
+                                context,
+                                widget.manga,
+                              ),
+                            )),
                 ),
                 Expanded(
                   child: MangaAddCardTitle(mangaTitle: widget.manga.titre),
@@ -63,9 +80,43 @@ class MangaCardState extends State<MangaCardWidget> {
                       .toList() ??
                   [],
             ),
+            SizedBox(
+              height: 40,
+              child: Card(
+                color: Colors.red,
+                child: TextButton(
+                  child: const Text(
+                    'Supprimer mon manga',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      height: -.05,
+                    ),
+                  ),
+                  onPressed: () => context.read<MyMangasBloc>().add(
+                      DeleteMangaEvent(
+                          mangadexMangaId: widget.manga.mangadexId)),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _gotoMangaCoverBigPage(BuildContext context, Manga manga) {
+    Navigator.of(context).push(MaterialPageRoute<void>(
+      builder: (BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(manga.titre),
+        ),
+        body: Center(
+          child: MangaCoverBig(
+            manga: manga,
+          ),
+        ),
+      ),
+    ));
   }
 }

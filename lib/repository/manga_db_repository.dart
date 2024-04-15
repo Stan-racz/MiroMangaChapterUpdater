@@ -18,6 +18,7 @@ abstract class MangaDbRepository {
       String mangadexMangaId);
   Future<List<Map<String, dynamic>>> getMangaFromMangadexMangaId(
       String mangadexMangaId);
+  Future<void> deleteMangaAndChapters(String mangadexMangaId);
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
@@ -169,6 +170,21 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   }
 
   @override
+  Future<void> deleteMangaAndChapters(String mangadexMangaId) async {
+    final db = await openDatabase(mangaDbName);
+    await db.delete(
+      mangaTable,
+      where: 'mangadex_id = ?',
+      whereArgs: [mangadexMangaId],
+    );
+    await db.delete(
+      chapterTable,
+      where: 'mangadex_manga_id = ?',
+      whereArgs: [mangadexMangaId],
+    );
+  }
+
+  @override
   Future<void> testTables() async {
     final db = await openDatabase(mangaDbName);
     final List<Map<String, Object?>> tables =
@@ -182,7 +198,10 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     debugPrint(db.database.toString());
     debugPrint(tables.toString());
     debugPrint(sqlVersion.toString());
-    debugPrint("Mangas : $queryManga");
+    for (var manga in queryManga) {
+      debugPrint(manga.toString());
+      debugPrint('====================================');
+    }
     debugPrint("Chapters : $queryChapters");
     await db.delete(chapterTable, where: 'number = ?', whereArgs: ['1453']);
     return;

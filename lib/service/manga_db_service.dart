@@ -84,6 +84,10 @@ class MangaDbService {
     return mangaList;
   }
 
+  Future<void> deleteMangaAndChapters(String mangadexMangaId) async {
+    await dbRepository.deleteMangaAndChapters(mangadexMangaId);
+  }
+
   Future<void> testTables() async {
     return await dbRepository.testTables();
   }
