@@ -323,9 +323,9 @@ class Manga {
 
   Manga.fromDb(Map<String, dynamic> query)
       : mangadexId = query['mangadex_id'],
-        titre = query['titre'],
+        titre = query['title'],
         description = query['description'],
-        annee = query['annee'],
+        annee = query['year'],
         status = query['status'],
         coverId = query['cover_id'],
         coverLink = query['cover_link'];
@@ -333,9 +333,9 @@ class Manga {
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'mangadex_id': mangadexId,
-      'titre': titre,
+      'title': titre,
       'description': description,
-      'annee': annee,
+      'year': annee,
       'status': status,
       'cover_id': coverId,
     };

@@ -16,3 +16,12 @@ void setupLocator() {
   getIt.registerSingleton<FlutterLocalNotificationsPlugin>(
       FlutterLocalNotificationsPlugin());
 }
+
+void setupLocatorTest() {
+  getIt.registerLazySingleton<MangaInfoService>(() => MangaInfoService());
+  getIt.registerSingleton<MangaInfoRepository>(MangaInfoRepositoryImpl());
+  getIt.registerSingleton<MangaDbRepository>(MangaDbRepositoryImpl());
+  getIt.registerLazySingleton<MangaDbService>(() => MangaDbService());
+  getIt.registerSingleton<FlutterLocalNotificationsPlugin>(
+      FlutterLocalNotificationsPlugin());
+}

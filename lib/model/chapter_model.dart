@@ -37,19 +37,19 @@ class Chapter {
 
   Chapter.fromDb(Map<String, dynamic> query)
       : chapterId = query['chapter_id'],
-        title = query['titre'],
+        title = query['title'],
         number = query['number'],
         volume = query['volume'],
-        chapterRead = query['chapitre_lu'],
+        chapterRead = query['chapter_read'],
         mangadexMangaId = query['mangadex_manga_id'];
 
   Map<String, dynamic> toJson() {
     return {
       'chapter_id': chapterId,
-      'titre': title,
+      'title': title,
       'number': number,
       'volume': volume,
-      'chapitre_lu': chapterRead,
+      'chapter_read': chapterRead,
       'mangadex_manga_id': mangadexMangaId,
     };
   }
