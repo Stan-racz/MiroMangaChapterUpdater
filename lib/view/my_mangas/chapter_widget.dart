@@ -33,18 +33,24 @@ class ChapterWidgetState extends State<ChapterWidget> {
             SizedBox(
               width: MediaQuery.of(context).size.width - 80,
               child: MangaAddCardText(
-                  widgetText: "Chapitre ${widget.chapter.number}",
-                  mangaInfo: widget.chapter.title.isNotEmpty
-                      ? widget.chapter.title
-                      : "Pas de titre"),
+                widgetText: "Chapitre ${widget.chapter.number}",
+                mangaInfo: widget.chapter.title.isNotEmpty
+                    ? widget.chapter.title
+                    : "Pas de titre",
+              ),
             ),
             IconButton(
               onPressed: () {
-                context.read<MyMangasBloc>().add(MyMangasChapterReadEvent(
-                    chapterId: widget.chapter.chapterId,
-                    chapterRead: widget.chapter.chapterRead == 1));
+                context.read<MyMangasBloc>().add(
+                      MyMangasChapterReadEvent(
+                        chapterId: widget.chapter.chapterId,
+                        chapterRead: widget.chapter.chapterRead == 1,
+                      ),
+                    );
               },
-              icon: const Icon(Icons.verified),
+              icon: widget.chapter.chapterRead == 1
+                  ? const Icon(Icons.verified)
+                  : const Icon(Icons.verified_outlined),
             ),
           ],
         ),
