@@ -34,10 +34,21 @@ class MyMangasViewState extends State<MyMangasView> {
               Icons.filter_list_outlined,
             ),
             itemBuilder: (context) => [
+              if (kDebugMode)
+                PopupMenuItem(
+                  child: const Text("Télécharger les chapitres"),
+                  onTap: () {
+                    context
+                        .read<MyMangasBloc>()
+                        .add(GetAllMangasChaptersEvent());
+                  },
+                ),
               PopupMenuItem(
-                child: const Text("Télécharger les chapitres"),
+                child: const Text("Check les nouveaux chapitres"),
                 onTap: () {
-                  context.read<MyMangasBloc>().add(GetAllMangasChaptersEvent());
+                  context
+                      .read<MyMangasBloc>()
+                      .add(CheckForNewMangaChaptersEvent());
                 },
               ),
               PopupMenuItem(
@@ -84,9 +95,7 @@ class MyMangasViewState extends State<MyMangasView> {
           children: [
             Expanded(
               child: BlocConsumer<MyMangasBloc, MyMangasState>(
-                listener: (BuildContext context, MyMangasState state) {
-                  // debugPrint(state.toString());
-                },
+                listener: (BuildContext context, MyMangasState state) {},
                 builder: (BuildContext context, MyMangasState state) {
                   return switch (state) {
                     MyMangasInitial() => GestureDetector(
@@ -95,10 +104,7 @@ class MyMangasViewState extends State<MyMangasView> {
                               .read<MyMangasBloc>()
                               .add(GetAllMangasFromDbEvent());
                         },
-                        child: const SizedBox(
-                          child: Text(
-                              "Ajoutez un manga, si cela est fait, scrollez vers le bas"),
-                        ),
+                        child: const SizedBox(),
                       ),
                     MyMangasRetrivedFromDb() => ListView.separated(
                         primary: true,
@@ -135,6 +141,7 @@ class MyMangasViewState extends State<MyMangasView> {
                   ),
                   onPressed: () {
                     context.read<MyMangasBloc>().add(MyMangasTestEvent());
+                    // _showPushNotification();
                   },
                   child: const Text(
                     "test",
@@ -162,9 +169,6 @@ Widget mangaCardWidgetWithChapters(
         chaptersOfManga.add(chapter);
       }
     }
-    chaptersOfManga.sort(
-      (a, b) => double.parse(b.number).compareTo(double.parse(a.number)),
-    );
     mangaWidgetList.add(
       MangaCardWidget(
         manga: manga,

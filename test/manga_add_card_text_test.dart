@@ -30,8 +30,8 @@ void main() {
       const String mangaInfo = "";
       await tester.pumpWidget(
         const MangaAddCardText(
-          mangaInfo: "description",
-          widgetText: "",
+          mangaInfo: mangaInfo,
+          widgetText: widgetText,
         ),
       );
       final widgetTextFinder = find.text(widgetText);
@@ -39,6 +39,22 @@ void main() {
 
       expect(widgetTextFinder, findsOneWidget);
       expect(mangaInfoFinder, findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    "MangaAddCardText has no widget text and no manga info",
+    (WidgetTester tester) async {
+      const String widgetText = '';
+      const String mangaInfo = '';
+      await tester.pumpWidget(
+        const MangaAddCardText(
+          mangaInfo: mangaInfo,
+          widgetText: widgetText,
+        ),
+      );
+
+      expect(find.text(""), findsExactly(2));
     },
   );
 }

@@ -44,6 +44,13 @@ class MyMangasChapterReadEvent extends MyMangasEvent {
   List<Object> get props => [];
 }
 
+class CheckForNewMangaChaptersEvent extends MyMangasEvent {
+  CheckForNewMangaChaptersEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
 class MyMangasTestEvent extends MyMangasEvent {
   MyMangasTestEvent();
 

@@ -22,7 +22,7 @@ class ChapterWidgetState extends State<ChapterWidget> {
     return SizedBox(
       width: double.maxFinite,
       child: Card(
-        color: widget.chapter.chapitreLu == 1
+        color: widget.chapter.chapterRead == 1
             ? const Color(0xffB7F2B6)
             : const Color.fromARGB(255, 255, 255, 255),
         elevation: 2,
@@ -34,16 +34,15 @@ class ChapterWidgetState extends State<ChapterWidget> {
               width: MediaQuery.of(context).size.width - 80,
               child: MangaAddCardText(
                   widgetText: "Chapitre ${widget.chapter.number}",
-                  mangaInfo: widget.chapter.titre.isNotEmpty
-                      ? widget.chapter.titre
+                  mangaInfo: widget.chapter.title.isNotEmpty
+                      ? widget.chapter.title
                       : "Pas de titre"),
             ),
             IconButton(
               onPressed: () {
-                // debugPrint("cc chapter lu ${widget.chapter.chapterId}");
                 context.read<MyMangasBloc>().add(MyMangasChapterReadEvent(
                     chapterId: widget.chapter.chapterId,
-                    chapterRead: widget.chapter.chapitreLu == 1));
+                    chapterRead: widget.chapter.chapterRead == 1));
               },
               icon: const Icon(Icons.verified),
             ),

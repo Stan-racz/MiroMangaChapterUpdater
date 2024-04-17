@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miro_manga_chapter_update/notifications/notifications.dart';
 
 import '../../locator.dart';
 import '../../model/chapter_model.dart';
@@ -13,9 +16,10 @@ import 'my_mangas_state.dart';
 class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
   MyMangasBloc() : super(MyMangasInitial()) {
     on<GetAllMangasFromDbEvent>(_getAllMangasFromDb);
-    on<GetAllMangasChaptersEvent>(_getMangaChapters);
+    on<GetAllMangasChaptersEvent>(_getMangaChaptersFromApiAndInsertInDb);
     on<GetAllMangasCoverLinksEvent>(_getAllMangaCoverLinks);
     on<MyMangasChapterReadEvent>(_chapterRead);
+    on<CheckForNewMangaChaptersEvent>(_checkForNewChaptersAndNotifyUser);
     on<MyMangasTestEvent>(_test);
   }
 
@@ -46,7 +50,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     }
   }
 
-  void _getMangaChapters(
+  void _getMangaChaptersFromApiAndInsertInDb(
     GetAllMangasChaptersEvent event,
     Emitter<MyMangasState> emit,
   ) async {
@@ -109,6 +113,69 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
         userMangaList: userMangas,
       ),
     );
+  }
+
+  void _checkForNewChaptersAndNotifyUser(
+    CheckForNewMangaChaptersEvent event,
+    Emitter<MyMangasState> emit,
+  ) async {
+    AndroidNotif androidNotif = AndroidNotif();
+    List<Chapter> apiChapterList = [];
+    List<Chapter> dbChapterList = [];
+    List<Chapter> chaptersToInsertInDb = [];
+    List<String> mangaIdToNotify = [];
+    List<Manga> mangaToNotify = [];
+
+    //je récupère tous les mangas de ma DB
+    List<Manga> userMangas = await mangaDbService.getAllMangas();
+    //Je crée une liste avec tous les ids de ces mangas
+    List<String> userMangasId = [];
+    for (Manga manga in userMangas) {
+      userMangasId.add(manga.mangadexId);
+    }
+
+    //pour tous les ids de mangas dans ma liste, je récupère les 10
+    //derniers chapitres, je les sauvegardes dans la DB puis je les passe
+    for (var id in userMangasId) {
+      dbChapterList.addAll(await mangaDbService.getLatestChapter(id));
+      apiChapterList
+          .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
+    }
+
+    for (Chapter chapter in dbChapterList) {
+      for (Chapter apiChapter in apiChapterList) {
+        if (chapter.mangadexMangaId == apiChapter.mangadexMangaId) {
+          if (chapter.number < apiChapter.number) {
+            chaptersToInsertInDb.add(apiChapter);
+            if (!mangaIdToNotify.contains(apiChapter.mangadexMangaId)) {
+              mangaIdToNotify.add(apiChapter.mangadexMangaId);
+            }
+          }
+        }
+      }
+    }
+    mangaDbService.insertBatchMangaChapters(chaptersToInsertInDb);
+
+    for (String id in mangaIdToNotify) {
+      mangaToNotify
+          .addAll(await mangaDbService.getMangaFromMangadexMangaId(id));
+    }
+
+    for (Manga manga in mangaToNotify) {
+      ReceivedNotification notification = ReceivedNotification(
+        id: DateTime.now().millisecond,
+        title: "Miro Manga Chapter Updater",
+        body: "Nouveau chapitre de ${manga.titre}",
+        payload: "payload",
+      );
+      androidNotif.showNotification(notification,
+          androidNotif.getNewChapterNoSoundPlatformChannelDetails());
+      sleep(const Duration(seconds: 2));
+    }
+
+    dbChapterList = await mangaDbService.getAllChapters();
+    emit(MyMangasRetrivedWithChaptersFromDb(
+        userMangaList: userMangas, userMangaChapterList: dbChapterList));
   }
 
   void _test(

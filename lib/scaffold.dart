@@ -11,11 +11,6 @@ class MyScaffold extends StatefulWidget {
 
 class MyScaffoldState extends State<MyScaffold> {
   int _currentIndex = 0;
-  List<String> routeLabels = [
-    "Mes Mangas",
-    "Rechercher un manga",
-    "Paramètres"
-  ];
 
   setCurrentIndex(int index) {
     setState(() {

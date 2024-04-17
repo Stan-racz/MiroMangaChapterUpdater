@@ -1,17 +1,17 @@
 class Chapter {
   final String chapterId;
-  final String titre;
-  final String number;
+  final String title;
+  final double number;
   final String volume;
-  int? chapitreLu = 0;
+  int? chapterRead = 0;
   final String mangadexMangaId;
 
   Chapter({
     required this.chapterId,
-    required this.titre,
+    required this.title,
     required this.number,
     required this.volume,
-    this.chapitreLu,
+    this.chapterRead,
     required this.mangadexMangaId,
   });
 
@@ -24,10 +24,12 @@ class Chapter {
         //TODO improve the conversion of api data into models with the correct model from json to dart
       }
     }
+    double number = double.parse(json['attributes']['chapter'] ?? 0);
+
     return Chapter(
       chapterId: json['id'] ?? "",
-      titre: json['attributes']['title'] ?? "",
-      number: json['attributes']['chapter'] ?? "",
+      title: json['attributes']['title'] ?? "",
+      number: number,
       volume: json['attributes']['volume'] ?? "",
       mangadexMangaId: mangadexMangaId,
     );
@@ -35,19 +37,19 @@ class Chapter {
 
   Chapter.fromDb(Map<String, dynamic> query)
       : chapterId = query['chapter_id'],
-        titre = query['titre'],
+        title = query['titre'],
         number = query['number'],
         volume = query['volume'],
-        chapitreLu = query['chapitre_lu'],
+        chapterRead = query['chapitre_lu'],
         mangadexMangaId = query['mangadex_manga_id'];
 
   Map<String, dynamic> toJson() {
     return {
       'chapter_id': chapterId,
-      'titre': titre,
+      'titre': title,
       'number': number,
       'volume': volume,
-      'chapitre_lu': chapitreLu,
+      'chapitre_lu': chapterRead,
       'mangadex_manga_id': mangadexMangaId,
     };
   }

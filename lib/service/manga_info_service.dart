@@ -49,7 +49,7 @@ class MangaInfoService {
   }
 
   /// For a given mangadexMangaId, goes and search the last 10 english translated chapters
-  /// of the mangadexMangaId, and saves them in the DB at the correct manga.
+  /// of the mangadexMangaId, and returns a list of chapters.
   Future<List<Chapter>> getMangaChaptersFromMangaId(
       String mangadexMangaId) async {
     final Response response =

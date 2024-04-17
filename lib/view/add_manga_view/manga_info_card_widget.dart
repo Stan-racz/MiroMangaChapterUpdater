@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_bloc.dart';
 
 import '../../bloc/add_manga_bloc/add_manga_event.dart';
@@ -19,47 +18,49 @@ class MangaInfoCardWidget extends StatelessWidget {
       color: const Color(0xffFBFAFA),
       child: Padding(
         padding: const EdgeInsets.all(2.0),
-        child: Column(
-          children: [
-            MangaAddCardTitle(mangaTitle: manga.titre),
-            MangaAddCardText(
-              widgetText: "Description",
-              mangaInfo: manga.description,
-            ),
-            MangaAddCardText(
-              widgetText: "Année de publication",
-              mangaInfo: manga.annee,
-            ),
-            MangaAddCardText(
-              mangaInfo: manga.status,
-              widgetText: "Status de Publication",
-            ),
-            ElevatedButton(
-              style: const ButtonStyle(
-                elevation: MaterialStatePropertyAll(10),
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              MangaAddCardTitle(mangaTitle: manga.titre),
+              MangaAddCardText(
+                key: const Key('Description'),
+                widgetText: "Description",
+                mangaInfo: manga.description,
               ),
-              onPressed: () {
-                if (manga.mangadexId.isEmpty) {
-                  Fluttertoast.showToast(
-                      msg: "Recherchez un manga avant de le sauvegarder",
-                      backgroundColor: Colors.red[300],
-                      textColor: Colors.white,
-                      fontSize: 16);
-                  return;
-                }
-                context.read<AddMangaBloc>().add(
-                      AddMangaToDbEvent(manga),
-                    );
-              },
-              child: const Text(
-                "Ajouter le Manga",
-                style: TextStyle(
-                  color: Colors.black,
+              MangaAddCardText(
+                key: const Key('Année de publication'),
+                widgetText: "Année de publication",
+                mangaInfo: manga.annee,
+              ),
+              MangaAddCardText(
+                key: const Key('Status de Publication'),
+                mangaInfo: manga.status,
+                widgetText: "Status de Publication",
+              ),
+              if (manga.mangadexId.isNotEmpty)
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: ElevatedButton(
+                    style: const ButtonStyle(
+                      elevation: MaterialStatePropertyAll(10),
+                      backgroundColor:
+                          MaterialStatePropertyAll<Color>(Colors.white),
+                    ),
+                    onPressed: () {
+                      context.read<AddMangaBloc>().add(
+                            AddMangaToDbEvent(manga),
+                          );
+                    },
+                    child: const Text(
+                      "Ajouter le Manga",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
