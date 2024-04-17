@@ -48,10 +48,16 @@ dependencies:
   l10n_flutter: ^1.0.7
   path: ^1.9.0
   go_router: ^13.2.1
+  flutter_local_notifications: ^17.0.1
+  http: ^0.13.5
   # freezed: ^2.4.7
   # freezed_annotation: ^2.4.1
   # json_annotation: ^4.8.1
 
+
+dependency_overrides:
+  http: ^1.0.0
+  flutterfire_cli: ^1.0.0
 
 dev_dependencies:
   flutter_test:

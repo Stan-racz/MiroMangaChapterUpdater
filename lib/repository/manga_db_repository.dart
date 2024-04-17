@@ -14,6 +14,10 @@ abstract class MangaDbRepository {
   Future<void> updateChapterUnread(String chapterId);
   Future<void> insertChapters(List<Chapter> chapterList);
   Future<void> updateCoverLink(String coverLink, String mangadexMangaId);
+  Future<List<Map<String, dynamic>>> getLatestChapterFromMangadexMangaId(
+      String mangadexMangaId);
+  Future<List<Map<String, dynamic>>> getMangaFromMangadexMangaId(
+      String mangadexMangaId);
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
@@ -34,9 +38,9 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     await db.execute('''
               CREATE TABLE IF NOT EXISTS $mangaTable (
                 mangadex_id TEXT PRIMARY KEY NOT NULL,
-                titre TEXT NOT NULL,
+                title TEXT NOT NULL,
                 description TEXT NOT NULL,
-                annee TEXT NOT NULL,
+                year TEXT NOT NULL,
                 status TEXT NOT NULL,
                 cover_id TEXT NOT NULL,
                 cover_link TEXT
@@ -45,10 +49,10 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     await db.execute('''
               CREATE TABLE IF NOT EXISTS $chapterTable (
                 chapter_id TEXT PRIMARY KEY NOT NULL,
-                titre TEXT NOT NULL,
-                number TEXT NOT NULL,
+                title TEXT NOT NULL,
+                number REAL NOT NULL,
                 volume TEXT NOT NULL,
-                chapitre_lu INTEGER NOT NULL,
+                chapter_read INTEGER NOT NULL,
                 mangadex_manga_id INTEGER,
                 FOREIGN KEY (mangadex_manga_id) REFERENCES Manga (mangadex_id)
               );
@@ -77,7 +81,8 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   @override
   Future<List<Map<String, dynamic>>> getAllChapters() async {
     final db = await openDatabase(mangaDbName);
-    final List<Map<String, Object?>> chapters = await db.query(chapterTable);
+    final List<Map<String, Object?>> chapters =
+        await db.query(chapterTable, orderBy: 'number DESC');
     return chapters;
   }
 
@@ -90,10 +95,10 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
         chapterTable,
         {
           'chapter_id': chapter.chapterId,
-          'titre': chapter.titre,
+          'title': chapter.title,
           'number': chapter.number,
           'volume': chapter.volume,
-          'chapitre_lu': chapter.chapitreLu = 0,
+          'chapter_read': chapter.chapterRead = 0,
           'mangadex_manga_id': chapter.mangadexMangaId,
         },
         conflictAlgorithm: ConflictAlgorithm.ignore,
@@ -108,7 +113,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     final db = await openDatabase(mangaDbName);
     await db.update(
       chapterTable,
-      {'chapitre_lu': 1},
+      {'chapter_read': 1},
       where: 'chapter_id = ?',
       whereArgs: [chapterId],
     );
@@ -120,7 +125,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     final db = await openDatabase(mangaDbName);
     await db.update(
       chapterTable,
-      {'chapitre_lu': 0},
+      {'chapter_read': 0},
       where: 'chapter_id = ?',
       whereArgs: [chapterId],
     );
@@ -139,11 +144,37 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   }
 
   @override
+  Future<List<Map<String, dynamic>>> getLatestChapterFromMangadexMangaId(
+    String mangadexMangaId,
+  ) async {
+    final db = await openDatabase(mangaDbName);
+    final List<Map<String, Object?>> chapter = await db.query(chapterTable,
+        where: 'mangadex_manga_id = ?',
+        whereArgs: [mangadexMangaId],
+        limit: 1,
+        orderBy: 'number DESC');
+    return chapter;
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getMangaFromMangadexMangaId(
+      String mangadexMangaId) async {
+    final db = await openDatabase(mangaDbName);
+    final List<Map<String, Object?>> manga = await db.query(
+      mangaTable,
+      where: 'mangadex_id = ?',
+      whereArgs: [mangadexMangaId],
+    );
+    return manga;
+  }
+
+  @override
   Future<void> testTables() async {
     final db = await openDatabase(mangaDbName);
     final List<Map<String, Object?>> tables =
         await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
-    final List<Map<String, Object?>> queryManga = await db.query(mangaTable);
+    final List<Map<String, Object?>> queryManga = await db
+        .query(mangaTable, where: 'titre = ?', whereArgs: ['Baki Rahen']);
     final List<Map<String, Object?>> queryChapters =
         await db.query(chapterTable);
     final List<Map<String, Object?>> sqlVersion =
@@ -153,6 +184,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     debugPrint(sqlVersion.toString());
     debugPrint("Mangas : $queryManga");
     debugPrint("Chapters : $queryChapters");
+    await db.delete(chapterTable, where: 'number = ?', whereArgs: ['1453']);
     return;
   }
 }

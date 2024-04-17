@@ -32,6 +32,19 @@ class MangaDbService {
     return chapterList;
   }
 
+  Future<List<Chapter>> getLatestChapter(String mangadexMangaId) async {
+    final List<Map<String, dynamic>> chapters =
+        await dbRepository.getLatestChapterFromMangadexMangaId(mangadexMangaId);
+
+    List<Chapter> chapterList = [];
+    for (Map<String, dynamic> chapter in chapters) {
+      chapterList.add(
+        Chapter.fromDb(chapter),
+      );
+    }
+    return chapterList;
+  }
+
   Future<void> updateCoverLink(String coverLink, String mangadexMangaId) async {
     return await dbRepository.updateCoverLink(coverLink, mangadexMangaId);
   }
@@ -56,6 +69,19 @@ class MangaDbService {
 
   Future<void> updateChapterUnread(String chapterId) async {
     await dbRepository.updateChapterUnread(chapterId);
+  }
+
+  Future<List<Manga>> getMangaFromMangadexMangaId(
+      String mangadexMangaId) async {
+    final List<Map<String, dynamic>> mangas =
+        await dbRepository.getMangaFromMangadexMangaId(mangadexMangaId);
+    List<Manga> mangaList = [];
+    for (Map<String, dynamic> manga in mangas) {
+      mangaList.add(
+        Manga.fromDb(manga),
+      );
+    }
+    return mangaList;
   }
 
   Future<void> testTables() async {
