@@ -43,6 +43,13 @@ class MyMangasViewState extends State<MyMangasView> {
                         .add(GetAllMangasChaptersEvent());
                   },
                 ),
+              if (kDebugMode)
+                PopupMenuItem(
+                  child: const Text("Test"),
+                  onTap: () {
+                    context.read<MyMangasBloc>().add(MyMangasTestEvent());
+                  },
+                ),
               PopupMenuItem(
                 child: const Text("Check les nouveaux chapitres"),
                 onTap: () {
@@ -91,67 +98,36 @@ class MyMangasViewState extends State<MyMangasView> {
       ),
       body: RefreshIndicator(
         onRefresh: () => _onRefresh(context),
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocConsumer<MyMangasBloc, MyMangasState>(
-                listener: (BuildContext context, MyMangasState state) {},
-                builder: (BuildContext context, MyMangasState state) {
-                  return switch (state) {
-                    MyMangasInitial() => GestureDetector(
-                        onVerticalDragEnd: (details) {
-                          context
-                              .read<MyMangasBloc>()
-                              .add(GetAllMangasFromDbEvent());
-                        },
-                        child: const SizedBox(),
-                      ),
-                    MyMangasRetrivedFromDb() => ListView.separated(
-                        primary: true,
-                        itemCount: state.userMangaList.length,
-                        itemBuilder: (context, index) =>
-                            MangaCardWidget(manga: state.userMangaList[index]),
-                        separatorBuilder: (context, index) => const SizedBox(
-                          height: 10,
-                        ),
-                      ),
-                    MyMangasRetrivedWithChaptersFromDb() =>
-                      mangaCardWidgetWithChapters(
-                          state.userMangaList, state.userMangaChapterList),
-                    MyMangasState() => GestureDetector(
-                        onVerticalDragEnd: (details) {
-                          context
-                              .read<MyMangasBloc>()
-                              .add(GetAllMangasFromDbEvent());
-                        },
-                        child: const SizedBox(),
-                      ),
-                  };
-                },
-              ),
-            ),
-            if (kDebugMode)
-              Center(
-                child: ElevatedButton(
-                  style: const ButtonStyle(
-                    elevation: MaterialStatePropertyAll(10),
-                    backgroundColor: MaterialStatePropertyAll<Color>(
-                      Color(0xffE5E5E5),
-                    ),
-                  ),
-                  onPressed: () {
-                    context.read<MyMangasBloc>().add(MyMangasTestEvent());
-                    // _showPushNotification();
+        child: BlocConsumer<MyMangasBloc, MyMangasState>(
+          listener: (BuildContext context, MyMangasState state) {},
+          builder: (BuildContext context, MyMangasState state) {
+            return switch (state) {
+              MyMangasInitial() => GestureDetector(
+                  onVerticalDragEnd: (details) {
+                    context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
                   },
-                  child: const Text(
-                    "test",
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
+                  child: const SizedBox(),
+                ),
+              MyMangasRetrivedFromDb() => ListView.separated(
+                  primary: true,
+                  itemCount: state.userMangaList.length,
+                  itemBuilder: (context, index) =>
+                      MangaCardWidget(manga: state.userMangaList[index]),
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 10,
                   ),
                 ),
-              ),
-          ],
+              MyMangasRetrivedWithChaptersFromDb() =>
+                mangaCardWidgetWithChapters(
+                    state.userMangaList, state.userMangaChapterList),
+              MyMangasState() => GestureDetector(
+                  onVerticalDragEnd: (details) {
+                    context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
+                  },
+                  child: const SizedBox(),
+                ),
+            };
+          },
         ),
       ),
     );

@@ -20,30 +20,32 @@ class MyScaffoldState extends State<MyScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: [
-        const MyMangasView(),
-        const AddMangaView(),
-        const SettingsView(),
-      ][_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.orange,
-        currentIndex: _currentIndex,
-        onTap: (index) => setCurrentIndex(index),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: "Mes Mangas",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Rechercher",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Paramètres",
-          )
-        ],
+    return MaterialApp(
+      home: Scaffold(
+        body: [
+          const MyMangasView(),
+          const AddMangaView(),
+          const SettingsView(),
+        ][_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Colors.orange,
+          currentIndex: _currentIndex,
+          onTap: (index) => setCurrentIndex(index),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              label: "Mes Mangas",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: "Rechercher",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: "Paramètres",
+            )
+          ],
+        ),
       ),
     );
   }
