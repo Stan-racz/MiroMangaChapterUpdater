@@ -18,6 +18,7 @@ abstract class MangaDbRepository {
       String mangadexMangaId);
   Future<List<Map<String, dynamic>>> getMangaFromMangadexMangaId(
       String mangadexMangaId);
+  Future<void> deleteMangaAndChapters(String mangadexMangaId);
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
@@ -169,22 +170,40 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   }
 
   @override
+  Future<void> deleteMangaAndChapters(String mangadexMangaId) async {
+    final db = await openDatabase(mangaDbName);
+    await db.delete(
+      mangaTable,
+      where: 'mangadex_id = ?',
+      whereArgs: [mangadexMangaId],
+    );
+    await db.delete(
+      chapterTable,
+      where: 'mangadex_manga_id = ?',
+      whereArgs: [mangadexMangaId],
+    );
+  }
+
+  @override
   Future<void> testTables() async {
     final db = await openDatabase(mangaDbName);
-    final List<Map<String, Object?>> tables =
-        await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
-    final List<Map<String, Object?>> queryManga = await db
-        .query(mangaTable, where: 'titre = ?', whereArgs: ['Baki Rahen']);
+    // final List<Map<String, Object?>> tables =
+    //     await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
+    // final List<Map<String, Object?>> queryManga = await db
+    //     .query(mangaTable, where: 'title = ?', whereArgs: ['Baki Rahen']);
     final List<Map<String, Object?>> queryChapters =
         await db.query(chapterTable);
-    final List<Map<String, Object?>> sqlVersion =
-        await db.rawQuery('SELECT sqlite_version()');
-    debugPrint(db.database.toString());
-    debugPrint(tables.toString());
-    debugPrint(sqlVersion.toString());
-    debugPrint("Mangas : $queryManga");
+    // final List<Map<String, Object?>> sqlVersion =
+    //     await db.rawQuery('SELECT sqlite_version()');
+    // debugPrint(db.database.toString());
+    // debugPrint(tables.toString());
+    // debugPrint(sqlVersion.toString());
+    // for (var manga in queryManga) {
+    //   debugPrint(manga.toString());
+    //   debugPrint('====================================');
+    // }
     debugPrint("Chapters : $queryChapters");
-    await db.delete(chapterTable, where: 'number = ?', whereArgs: ['1453']);
+    // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['1453']);
     return;
   }
 }

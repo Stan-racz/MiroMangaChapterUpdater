@@ -20,7 +20,7 @@ class MangaAddCardTitle extends StatelessWidget {
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
-      maxLines: 2,
+      maxLines: 3,
     );
   }
 }

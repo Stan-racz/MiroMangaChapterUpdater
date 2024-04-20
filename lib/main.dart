@@ -72,9 +72,7 @@ class MangaChapterUpdateAppState extends State<MangaChapterUpdateApp> {
           create: (BuildContext context) => MyMangasBloc(),
         )
       ],
-      child: const MaterialApp(
-        home: MyScaffold(),
-      ),
+      child: const MyScaffold(),
     );
   }
 }

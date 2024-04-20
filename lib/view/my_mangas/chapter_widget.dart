@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_bloc.dart';
-import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_event.dart';
 
+import '../../bloc/my_mangas_bloc/my_mangas_bloc.dart';
+import '../../bloc/my_mangas_bloc/my_mangas_event.dart';
 import '../../model/chapter_model.dart';
 import '../add_manga_view/manga_add_card_text.dart';
 
@@ -39,18 +39,21 @@ class ChapterWidgetState extends State<ChapterWidget> {
                     : "Pas de titre",
               ),
             ),
-            IconButton(
-              onPressed: () {
-                context.read<MyMangasBloc>().add(
-                      MyMangasChapterReadEvent(
-                        chapterId: widget.chapter.chapterId,
-                        chapterRead: widget.chapter.chapterRead == 1,
-                      ),
-                    );
-              },
-              icon: widget.chapter.chapterRead == 1
-                  ? const Icon(Icons.verified)
-                  : const Icon(Icons.verified_outlined),
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: IconButton(
+                onPressed: () {
+                  context.read<MyMangasBloc>().add(
+                        MyMangasChapterReadEvent(
+                          chapterId: widget.chapter.chapterId,
+                          chapterRead: widget.chapter.chapterRead == 1,
+                        ),
+                      );
+                },
+                icon: widget.chapter.chapterRead == 1
+                    ? const Icon(Icons.verified)
+                    : const Icon(Icons.verified_outlined),
+              ),
             ),
           ],
         ),

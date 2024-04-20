@@ -46,6 +46,19 @@ final class MyMangasRetrivedWithChaptersFromDb extends MyMangasState {
   List<Object> get props => [userMangaList, userMangaChapterList];
 }
 
+final class MangaDeletedState extends MyMangasState {
+  final List<Manga> userMangaList;
+  final List<Chapter> userMangaChapterList;
+
+  MangaDeletedState({
+    required this.userMangaList,
+    required this.userMangaChapterList,
+  });
+
+  @override
+  List<Object> get props => [userMangaList, userMangaChapterList];
+}
+
 final class ChapterReadState extends MyMangasState {
   @override
   List<Object> get props => [];

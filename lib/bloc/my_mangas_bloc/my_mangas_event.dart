@@ -34,6 +34,14 @@ class GetAllMangasCoverLinksEvent extends MyMangasEvent {
   List<Object> get props => [];
 }
 
+class DeleteMangaEvent extends MyMangasEvent {
+  final String mangadexMangaId;
+  DeleteMangaEvent({required this.mangadexMangaId});
+
+  @override
+  List<Object> get props => [];
+}
+
 class MyMangasChapterReadEvent extends MyMangasEvent {
   final String chapterId;
   final bool chapterRead;
