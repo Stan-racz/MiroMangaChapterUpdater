@@ -4,6 +4,7 @@ import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_bloc.dar
 
 import '../../bloc/add_manga_bloc/add_manga_event.dart';
 import '../../model/manga_model.dart';
+import '../my_mangas/manga_cover_big.dart';
 import 'manga_add_card_text.dart';
 import 'manga_add_card_title.dart';
 
@@ -21,7 +22,32 @@ class MangaInfoCardWidget extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              MangaAddCardTitle(mangaTitle: manga.titre),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5.0, 0, 0.0, 8.0),
+                    child: SizedBox(
+                        width: 75,
+                        child: manga.coverLink != null
+                            ? GestureDetector(
+                                child: Image.network(manga.coverLink!),
+                                onTap: () => _gotoMangaCoverBigPage(
+                                  context,
+                                  manga,
+                                ),
+                              )
+                            : GestureDetector(
+                                child: Image.asset(
+                                    'assets/cover_placeholder.jpeg'),
+                                onTap: () => _gotoMangaCoverBigPage(
+                                  context,
+                                  manga,
+                                ),
+                              )),
+                  ),
+                  Expanded(child: MangaAddCardTitle(mangaTitle: manga.titre)),
+                ],
+              ),
               MangaAddCardText(
                 key: const Key('Description'),
                 widgetText: "Description",
@@ -65,4 +91,19 @@ class MangaInfoCardWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+void _gotoMangaCoverBigPage(BuildContext context, Manga manga) {
+  Navigator.of(context).push(MaterialPageRoute<void>(
+    builder: (BuildContext context) => Scaffold(
+      appBar: AppBar(
+        title: Text(manga.titre),
+      ),
+      body: Center(
+        child: MangaCoverBig(
+          manga: manga,
+        ),
+      ),
+    ),
+  ));
 }
