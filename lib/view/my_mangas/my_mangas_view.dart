@@ -58,14 +58,15 @@ class MyMangasViewState extends State<MyMangasView> {
                       .add(CheckForNewMangaChaptersEvent());
                 },
               ),
-              PopupMenuItem(
-                child: const Text("Télécharger les covers de manga"),
-                onTap: () {
-                  context
-                      .read<MyMangasBloc>()
-                      .add(GetAllMangasCoverLinksEvent());
-                },
-              ),
+              if (kDebugMode)
+                PopupMenuItem(
+                  child: const Text("Télécharger les covers de manga"),
+                  onTap: () {
+                    context
+                        .read<MyMangasBloc>()
+                        .add(GetAllMangasCoverLinksEvent());
+                  },
+                ),
               PopupMenuItem(
                 child: const Text("Checker le status de mes mangas"),
                 onTap: () {

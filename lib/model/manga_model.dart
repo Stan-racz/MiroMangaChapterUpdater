@@ -338,6 +338,7 @@ class Manga {
       'year': annee,
       'status': status,
       'cover_id': coverId,
+      'cover_link': coverLink,
     };
     return map;
   }
