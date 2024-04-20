@@ -33,7 +33,8 @@ class ChapterWidgetState extends State<ChapterWidget> {
             SizedBox(
               width: MediaQuery.of(context).size.width - 80,
               child: MangaAddCardText(
-                widgetText: "Chapitre ${widget.chapter.number}",
+                widgetText:
+                    "Chapitre ${widget.chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
                 mangaInfo: widget.chapter.title.isNotEmpty
                     ? widget.chapter.title
                     : "Pas de titre",

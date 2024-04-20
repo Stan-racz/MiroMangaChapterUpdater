@@ -20,3 +20,17 @@
 - Rafraichissement des chapitres téléchargés automatiques
 - Affichage des multiples mangas qui peuvent matcher la recherche de l'utilisateur
 - Téléchargement des covers (rafraichissement après scroll vers le bas dans la page Mes Mangas)
+
+1.0.3 (2) : 
+- Correction d'un bug qui lorsqu'un nouveau chapitre sortait et était sauvegardé dans le terminal utilisateur, il apparraissait à la fin de la liste des chapitres du manga
+
+
+1.1.0 : 
+
+- Affichage des covers de manga dans la page de recherche
+- Téléchargement automatique des chapitres au moment de l'ajout à la Mangathèque
+- Ajout d'un indicateur de chargement de la recherche des mangas selon la requête de l'utilisateur
+- Les covers sont maintenant cliquables et affichent la cover dans une page entière
+- Ajout d'un menu sur la carte des mangas dans la Mangathèque qui permet pour le moment de supprimer un manga de la mangathèque
+- Changement de l'icone chapitre lu pour une meilleure visibilité
+- Ajout de notifications locales à l'application. Lorsque l'utilisateur check les nouveaux chapitres, il recevra une notification par manga qui possède un nouveau chapitre à lire (Cette fonctionnalité à pour but d'être automatisée) 
