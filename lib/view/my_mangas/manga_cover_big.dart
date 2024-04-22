@@ -12,7 +12,6 @@ class MangaCoverBig extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      // flightShuttleBuilder: (flightContext, animation, flightDirection, fromHeroContext, toHeroContext) => ,
       tag: 'cover-${manga.mangadexId}',
       child: Image.network(manga.coverLink!),
     );

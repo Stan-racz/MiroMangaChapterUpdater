@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../bloc/add_manga_bloc/add_manga_event.dart';
-import '/bloc/add_manga_bloc/add_manga_state.dart';
 
+import '../../bloc/add_manga_bloc/add_manga_event.dart';
 import '/bloc/add_manga_bloc/add_manga_bloc.dart';
+import '/bloc/add_manga_bloc/add_manga_state.dart';
 
 class MangaInput extends StatelessWidget {
   const MangaInput(
@@ -19,10 +19,16 @@ class MangaInput extends StatelessWidget {
         return TextFormField(
           controller: textController,
           focusNode: mangaFocusNode,
-          decoration: const InputDecoration(
-            icon: Icon(Icons.book),
+          decoration: InputDecoration(
+            iconColor: Theme.of(context).colorScheme.primary,
+            icon: const Icon(Icons.book),
             labelText: 'Cherchez votre manga avec son titre',
             helperText: 'Exemple: Baki Rahen, Kengan Omega...',
+            helperStyle:
+                TextStyle(color: Theme.of(context).colorScheme.onBackground),
+            labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+            hintStyle:
+                TextStyle(color: Theme.of(context).colorScheme.onBackground),
           ),
           keyboardType: TextInputType.text,
           onFieldSubmitted: (value) {

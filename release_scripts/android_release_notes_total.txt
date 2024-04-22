@@ -33,4 +33,9 @@
 - Les covers sont maintenant cliquables et affichent la cover dans une page entière
 - Ajout d'un menu sur la carte des mangas dans la Mangathèque qui permet pour le moment de supprimer un manga de la mangathèque
 - Changement de l'icone chapitre lu pour une meilleure visibilité
-- Ajout de notifications locales à l'application. Lorsque l'utilisateur check les nouveaux chapitres, il recevra une notification par manga qui possède un nouveau chapitre à lire (Cette fonctionnalité à pour but d'être automatisée) 
+- Ajout de notifications locales à l'application. Lorsque l'utilisateur check les nouveaux chapitres, il recevra une notification par manga qui possède un nouveau chapitre à lire (Cette fonctionnalité à pour but d'être automatisée)
+
+1.2.0 :
+
+- Ajout du Dark Mode 
+- Ajout d'une liste dans la page Settings qui permet de choisir entre Light mode/Dark Mode/System mode (l'application s'adapte au thème du terminal utilisateur)

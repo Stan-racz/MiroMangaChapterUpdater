@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/my_mangas_bloc/my_mangas_bloc.dart';
 import '../../bloc/my_mangas_bloc/my_mangas_event.dart';
@@ -89,27 +88,23 @@ class MyMangasViewState extends State<MyMangasView> {
             thickness: 1.5,
           ),
         ),
-        title: Text(
+        title: const Text(
           "Mes Mangas",
-          style: GoogleFonts.aBeeZee(
-            fontSize: 18,
-            color: Colors.black,
-          ),
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () => _onRefresh(context),
-        child: BlocConsumer<MyMangasBloc, MyMangasState>(
-          listener: (BuildContext context, MyMangasState state) {},
-          builder: (BuildContext context, MyMangasState state) {
-            return switch (state) {
-              MyMangasInitial() => GestureDetector(
-                  onVerticalDragEnd: (details) {
-                    context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
-                  },
-                  child: const SizedBox(),
-                ),
-              MyMangasRetrivedFromDb() => ListView.separated(
+      body: BlocConsumer<MyMangasBloc, MyMangasState>(
+        listener: (BuildContext context, MyMangasState state) {},
+        builder: (BuildContext context, MyMangasState state) {
+          return switch (state) {
+            MyMangasInitial() => GestureDetector(
+                onVerticalDragEnd: (details) {
+                  context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
+                },
+                child: const SizedBox(),
+              ),
+            MyMangasRetrivedFromDb() => Expanded(
+                child: ListView.separated(
+                  shrinkWrap: true,
                   primary: true,
                   itemCount: state.userMangaList.length,
                   itemBuilder: (context, index) =>
@@ -118,18 +113,17 @@ class MyMangasViewState extends State<MyMangasView> {
                     height: 10,
                   ),
                 ),
-              MyMangasRetrivedWithChaptersFromDb() =>
-                mangaCardWidgetWithChapters(
-                    state.userMangaList, state.userMangaChapterList),
-              MyMangasState() => GestureDetector(
-                  onVerticalDragEnd: (details) {
-                    context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
-                  },
-                  child: const SizedBox(),
-                ),
-            };
-          },
-        ),
+              ),
+            MyMangasRetrivedWithChaptersFromDb() => mangaCardWidgetWithChapters(
+                state.userMangaList, state.userMangaChapterList),
+            MyMangasState() => GestureDetector(
+                onVerticalDragEnd: (details) {
+                  context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
+                },
+                child: const SizedBox(),
+              ),
+          };
+        },
       ),
     );
   }
@@ -161,8 +155,4 @@ Widget mangaCardWidgetWithChapters(
       height: 10,
     ),
   );
-}
-
-Future<void> _onRefresh(BuildContext context) async {
-  context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
 }

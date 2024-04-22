@@ -10,6 +10,7 @@ import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_bloc.dar
 import 'package:miro_manga_chapter_update/locator.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/add_manga.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/manga_info_card_widget.dart';
+import 'package:miro_manga_chapter_update/view/add_manga_view/manga_input.dart';
 
 class MockAddMangaBloc extends MockBloc<AddMangaEvent, AddMangaState>
     implements AddMangaBloc {}
@@ -22,19 +23,21 @@ void main() {
   testWidgets(
     "AddMangaView has no MangaInfoCardWidget children (no manga found in search)",
     (WidgetTester tester) async {
-      await tester.pumpWidget(MultiBlocProvider(
-        providers: [
-          BlocProvider<AddMangaBloc>(
-            create: (BuildContext context) => AddMangaBloc(),
+      await tester.pumpWidget(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider<AddMangaBloc>(
+              create: (BuildContext context) => AddMangaBloc(),
+            ),
+            BlocProvider<MyMangasBloc>(
+              create: (BuildContext context) => MyMangasBloc(),
+            )
+          ],
+          child: const MaterialApp(
+            home: AddMangaView(),
           ),
-          BlocProvider<MyMangasBloc>(
-            create: (BuildContext context) => MyMangasBloc(),
-          )
-        ],
-        child: const MaterialApp(
-          home: AddMangaView(),
         ),
-      ));
+      );
       expect(find.byType(MangaInfoCardWidget), findsNothing);
     },
   );
@@ -56,6 +59,7 @@ void main() {
         ),
       ));
       expect(find.byType(AddMangaView), findsOneWidget);
+      expect(find.byType(MangaInput), findsOneWidget);
     },
   );
 }
