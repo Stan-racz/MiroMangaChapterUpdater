@@ -5,6 +5,7 @@ import 'package:miro_manga_chapter_update/model/manga_model.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/manga_add_card_text.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/manga_add_card_title.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/manga_info_card_widget.dart';
+import 'package:mocktail_image_network/mocktail_image_network.dart';
 
 void main() {
   testWidgets(
@@ -25,8 +26,10 @@ void main() {
         manga: manga,
       );
 
-      await tester.pumpWidget(
-        mangaInfoCardWidget,
+      await mockNetworkImages(
+        () async => tester.pumpWidget(
+          mangaInfoCardWidget,
+        ),
       );
       //test if the MangaInfoCardWidget is well instanciated
       expect(find.byWidget(mangaInfoCardWidget), findsOneWidget);
@@ -61,8 +64,10 @@ void main() {
         manga: manga,
       );
 
-      await tester.pumpWidget(
-        mangaInfoCardWidget,
+      await mockNetworkImages(
+        () async => tester.pumpWidget(
+          mangaInfoCardWidget,
+        ),
       );
       //test if the MangaInfoCardWidget is well instanciated
       expect(find.byWidget(mangaInfoCardWidget), findsOneWidget);
@@ -96,8 +101,10 @@ void main() {
         manga: manga,
       );
 
-      await tester.pumpWidget(
-        mangaInfoCardWidget,
+      await mockNetworkImages(
+        () async => tester.pumpWidget(
+          mangaInfoCardWidget,
+        ),
       );
 
       ///test if the MangaInfoCardWidget is well instanciated

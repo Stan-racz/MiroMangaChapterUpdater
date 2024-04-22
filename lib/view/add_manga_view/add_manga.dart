@@ -2,14 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:miro_manga_chapter_update/view/add_manga_view/manga_loading_widget.dart';
 
 import '../../bloc/add_manga_bloc/add_manga_bloc.dart';
 import '../../bloc/add_manga_bloc/add_manga_event.dart';
 import '../../bloc/add_manga_bloc/add_manga_state.dart';
 import 'manga_info_card_widget.dart';
 import 'manga_input.dart';
+import 'manga_loading_widget.dart';
 
 class AddMangaView extends StatefulWidget {
   const AddMangaView({super.key});
@@ -43,12 +42,8 @@ class AddMangaViewState extends State<AddMangaView> {
               thickness: 1.5,
             ),
           ),
-          title: Text(
+          title: const Text(
             "Ajouter un Manga",
-            style: GoogleFonts.aBeeZee(
-              fontSize: 18,
-              color: Colors.black,
-            ),
           ),
           actions: [
             if (kDebugMode)
@@ -106,6 +101,7 @@ class AddMangaViewState extends State<AddMangaView> {
                   AddMangaInitial() => const SizedBox(),
                   MangaFoundByTitleState() => Expanded(
                       child: ListView.separated(
+                        shrinkWrap: true,
                         itemCount: state.mangasFound.length,
                         itemBuilder: (context, index) => MangaInfoCardWidget(
                           manga: state.mangasFound[index],

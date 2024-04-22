@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MangaAddCardTitle extends StatelessWidget {
   const MangaAddCardTitle({
@@ -12,11 +11,7 @@ class MangaAddCardTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       mangaTitle,
-      style: GoogleFonts.aBeeZee(
-        fontSize: 32,
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-      ),
+      style: Theme.of(context).textTheme.titleLarge,
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,

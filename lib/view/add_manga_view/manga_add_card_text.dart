@@ -18,12 +18,11 @@ class MangaAddCardText extends StatelessWidget {
             children: [
               Text(
                 widgetText,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.labelMedium,
               ),
-              const Text(
+              Text(
                 " : ",
+                style: Theme.of(context).textTheme.labelMedium,
               ),
               Flexible(
                 child: Text(
@@ -31,6 +30,7 @@ class MangaAddCardText extends StatelessWidget {
                   mangaInfo,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
             ],

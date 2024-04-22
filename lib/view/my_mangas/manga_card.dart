@@ -24,16 +24,20 @@ class MangaCardState extends State<MangaCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color(0xffE5E5E5),
       elevation: 5,
-      child: Column(
+      child: Wrap(
+        runSpacing: 0,
+        textDirection: TextDirection.ltr,
         children: [
           SizedBox(
             height: 25,
             child: Align(
               alignment: Alignment.centerRight,
               child: PopupMenuButton(
-                icon: const Icon(Icons.more_horiz),
+                icon: Icon(
+                  Icons.more_horiz,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     child: Text(
@@ -51,34 +55,72 @@ class MangaCardState extends State<MangaCardWidget> {
             ),
           ),
           Row(
+            textDirection: TextDirection.ltr,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 0, 0.0, 8.0),
-                child: SizedBox(
-                    width: 75,
-                    child: widget.manga.coverLink != null
-                        ? GestureDetector(
-                            child: Image.network(widget.manga.coverLink!),
-                            onTap: () => _gotoMangaCoverBigPage(
-                              context,
-                              widget.manga,
-                            ),
-                          )
-                        : GestureDetector(
-                            child: Image.asset('assets/cover_placeholder.jpeg'),
-                            onTap: () => _gotoMangaCoverBigPage(
-                              context,
-                              widget.manga,
-                            ),
-                          )),
+                padding: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 8.0),
+                child: Theme.of(context).brightness == Brightness.dark
+                    ? SizedBox(
+                        width: 75,
+                        child: widget.manga.coverLink != null
+                            ? GestureDetector(
+                                child: ColorFiltered(
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.darken,
+                                  ),
+                                  child: Image.network(widget.manga.coverLink!),
+                                ),
+                                onTap: () => _gotoMangaCoverBigPage(
+                                  context,
+                                  widget.manga,
+                                ),
+                              )
+                            : GestureDetector(
+                                child: ColorFiltered(
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.darken,
+                                  ),
+                                  child: Image.asset(
+                                      'assets/cover_placeholder.jpeg'),
+                                ),
+                                onTap: () => _gotoMangaCoverBigPage(
+                                  context,
+                                  widget.manga,
+                                ),
+                              ),
+                      )
+                    : SizedBox(
+                        width: 75,
+                        child: widget.manga.coverLink != null
+                            ? GestureDetector(
+                                child: Image.network(widget.manga.coverLink!),
+                                onTap: () => _gotoMangaCoverBigPage(
+                                  context,
+                                  widget.manga,
+                                ),
+                              )
+                            : GestureDetector(
+                                child: Image.asset(
+                                    'assets/cover_placeholder.jpeg'),
+                                onTap: () => _gotoMangaCoverBigPage(
+                                  context,
+                                  widget.manga,
+                                ),
+                              ),
+                      ),
               ),
-              Expanded(
-                  child: MangaAddCardTitle(mangaTitle: widget.manga.titre)),
+              MangaAddCardTitle(mangaTitle: widget.manga.titre),
             ],
           ),
-          const Divider(
-            color: Colors.black,
-            height: 1,
+          const Directionality(
+            textDirection: TextDirection.ltr,
+            child: Divider(
+              thickness: 1,
+              color: Colors.black,
+              height: 1,
+            ),
           ),
           MangaAddCardText(
               widgetText: "Description", mangaInfo: widget.manga.description),
@@ -87,18 +129,26 @@ class MangaCardState extends State<MangaCardWidget> {
               mangaInfo: widget.manga.annee),
           MangaAddCardText(
               widgetText: "Status", mangaInfo: widget.manga.status),
-          const Divider(
-            color: Colors.black,
-            height: 10,
+          const Directionality(
+            textDirection: TextDirection.ltr,
+            child: Divider(
+              thickness: 1,
+              color: Colors.black,
+              height: 10,
+            ),
           ),
-          Column(
-            children: widget.chapterList
-                    ?.map((chapter) => ChapterWidget(
-                          chapter: chapter,
-                        ))
-                    .toList() ??
-                [],
-          ),
+          if (widget.chapterList?.isNotEmpty ?? false)
+            Wrap(
+              runAlignment: WrapAlignment.center,
+              runSpacing: 0,
+              textDirection: TextDirection.ltr,
+              children: widget.chapterList
+                      ?.map((chapter) => ChapterWidget(
+                            chapter: chapter,
+                          ))
+                      .toList() ??
+                  [],
+            ),
         ],
       ),
     );

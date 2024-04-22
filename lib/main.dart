@@ -1,27 +1,30 @@
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:global/global.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_bloc.dart';
 
 import 'bloc/add_manga_bloc/add_manga_bloc.dart';
+import 'bloc/theme_cubit/theme_cubit.dart';
 import 'firebase_options.dart';
 import 'locator.dart';
 import 'scaffold.dart';
 import 'service/manga_db_service.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  runApp(const MangaChapterUpdateApp());
+  await getIt.allReady();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   getIt<MangaDbService>().createTables();
-
-  WidgetsFlutterBinding.ensureInitialized();
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       getIt<FlutterLocalNotificationsPlugin>();
@@ -44,7 +47,11 @@ void main() async {
     iOS: darwinInitializationSettings,
   );
 
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getApplicationDocumentsDirectory(),
+  );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  runApp(const MangaChapterUpdateApp());
 }
 
 class MangaChapterUpdateApp extends StatefulWidget {
@@ -70,7 +77,10 @@ class MangaChapterUpdateAppState extends State<MangaChapterUpdateApp> {
         ),
         BlocProvider<MyMangasBloc>(
           create: (BuildContext context) => MyMangasBloc(),
-        )
+        ),
+        BlocProvider(
+          create: (BuildContext context) => ThemeCubit(),
+        ),
       ],
       child: const MyScaffold(),
     );

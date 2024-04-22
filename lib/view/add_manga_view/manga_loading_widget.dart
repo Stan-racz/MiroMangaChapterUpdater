@@ -24,9 +24,7 @@ class MangaLoadingWidget extends StatelessWidget {
         const SizedBox(
           height: 25,
           width: 25,
-          child: CircularProgressIndicator(
-            color: Colors.black,
-          ),
+          child: CircularProgressIndicator(),
         ),
       ],
     );

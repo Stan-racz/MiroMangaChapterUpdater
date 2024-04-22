@@ -20,13 +20,15 @@ class ChapterWidgetState extends State<ChapterWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      height: 50,
       width: double.maxFinite,
       child: Card(
         color: widget.chapter.chapterRead == 1
-            ? const Color(0xffB7F2B6)
-            : const Color.fromARGB(255, 255, 255, 255),
+            ? Theme.of(context).colorScheme.scrim
+            : Theme.of(context).colorScheme.onSecondaryContainer,
         elevation: 2,
         child: Flex(
+          textDirection: TextDirection.ltr,
           direction: Axis.horizontal,
           mainAxisSize: MainAxisSize.min,
           children: [
