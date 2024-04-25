@@ -35,7 +35,12 @@ class MyMangasViewState extends State<MyMangasView> {
             itemBuilder: (context) => [
               if (kDebugMode)
                 PopupMenuItem(
-                  child: const Text("Télécharger les chapitres"),
+                  child: Text(
+                    "Télécharger les chapitres",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                   onTap: () {
                     context
                         .read<MyMangasBloc>()
@@ -44,13 +49,23 @@ class MyMangasViewState extends State<MyMangasView> {
                 ),
               if (kDebugMode)
                 PopupMenuItem(
-                  child: const Text("Test"),
+                  child: Text(
+                    "Test",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                   onTap: () {
                     context.read<MyMangasBloc>().add(MyMangasTestEvent());
                   },
                 ),
               PopupMenuItem(
-                child: const Text("Check les nouveaux chapitres"),
+                child: Text(
+                  "Check les nouveaux chapitres",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
                 onTap: () {
                   context
                       .read<MyMangasBloc>()
@@ -59,7 +74,12 @@ class MyMangasViewState extends State<MyMangasView> {
               ),
               if (kDebugMode)
                 PopupMenuItem(
-                  child: const Text("Télécharger les covers de manga"),
+                  child: Text(
+                    "Télécharger les covers de manga",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                   onTap: () {
                     context
                         .read<MyMangasBloc>()
@@ -67,7 +87,12 @@ class MyMangasViewState extends State<MyMangasView> {
                   },
                 ),
               PopupMenuItem(
-                child: const Text("Checker le status de mes mangas"),
+                child: Text(
+                  "Checker le status de mes mangas",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
                 onTap: () {
                   //TODO : MMCU-15
                   Fluttertoast.showToast(
@@ -96,22 +121,15 @@ class MyMangasViewState extends State<MyMangasView> {
         listener: (BuildContext context, MyMangasState state) {},
         builder: (BuildContext context, MyMangasState state) {
           return switch (state) {
-            MyMangasInitial() => GestureDetector(
-                onVerticalDragEnd: (details) {
-                  context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
-                },
-                child: const SizedBox(),
-              ),
-            MyMangasRetrivedFromDb() => Expanded(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  primary: true,
-                  itemCount: state.userMangaList.length,
-                  itemBuilder: (context, index) =>
-                      MangaCardWidget(manga: state.userMangaList[index]),
-                  separatorBuilder: (context, index) => const SizedBox(
-                    height: 10,
-                  ),
+            MyMangasInitial() => const SizedBox(),
+            MyMangasRetrivedFromDb() => ListView.separated(
+                shrinkWrap: true,
+                primary: true,
+                itemCount: state.userMangaList.length,
+                itemBuilder: (context, index) =>
+                    MangaCardWidget(manga: state.userMangaList[index]),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 10,
                 ),
               ),
             MyMangasRetrivedWithChaptersFromDb() => mangaCardWidgetWithChapters(

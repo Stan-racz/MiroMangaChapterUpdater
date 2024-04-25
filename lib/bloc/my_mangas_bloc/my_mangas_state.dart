@@ -8,11 +8,12 @@ final class MyMangasState extends Equatable {
   List<Object?> get props => throw UnimplementedError();
 }
 
+// ignore: must_be_immutable
 final class MyMangasInitial extends MyMangasState {
-  late final List<Manga> userMangaList;
+  List<Manga>? userMangaList;
 
   @override
-  List<Object> get props => [userMangaList];
+  List<Object> get props => [];
 }
 
 final class MyMangasRetrivedFromDb extends MyMangasState {

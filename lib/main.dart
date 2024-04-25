@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:global/global.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_bloc.dart';
+import 'package:miro_manga_chapter_update/bloc/reader_bloc/reader_bloc.dart';
 
 import 'bloc/add_manga_bloc/add_manga_bloc.dart';
 import 'bloc/theme_cubit/theme_cubit.dart';
@@ -80,6 +81,9 @@ class MangaChapterUpdateAppState extends State<MangaChapterUpdateApp> {
         ),
         BlocProvider(
           create: (BuildContext context) => ThemeCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => ReaderBloc(),
         ),
       ],
       child: const MyScaffold(),

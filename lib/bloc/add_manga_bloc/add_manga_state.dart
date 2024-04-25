@@ -44,3 +44,8 @@ final class MangaAlreadyAdded extends AddMangaState {
   @override
   List<Object> get props => [];
 }
+
+final class MangaAddInProgress extends AddMangaState {
+  @override
+  List<Object> get props => [];
+}

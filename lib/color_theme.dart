@@ -40,6 +40,10 @@ class ColorTheme {
         color: Colors.black,
         fontSize: 14,
       ),
+      titleMedium: GoogleFonts.aBeeZee(
+        color: Colors.black,
+        fontSize: 18,
+      ),
     ),
     colorScheme: const ColorScheme(
       background: Colors.white,
@@ -114,6 +118,10 @@ class ColorTheme {
       titleSmall: GoogleFonts.aBeeZee(
         color: Colors.grey,
         fontSize: 14,
+      ),
+      titleMedium: GoogleFonts.aBeeZee(
+        color: Colors.orange,
+        fontSize: 18,
       ),
     ),
   );
