@@ -32,9 +32,9 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
 
   Database? db;
 
-  _upgradeMangaTableV2(Batch batch) {
-    batch.execute('DROP TABLE IF EXISTS $mangaTable');
-    batch.execute('''
+  _upgradeMangaTableV2(Database db) async {
+    await db.execute('DROP TABLE IF EXISTS $mangaTable');
+    await db.execute('''
               CREATE TABLE IF NOT EXISTS $mangaTable (
                 mangadex_id TEXT PRIMARY KEY NOT NULL,
                 title TEXT NOT NULL,
@@ -47,9 +47,9 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
             ''');
   }
 
-  _upgradeChapterTableV2(Batch batch) {
-    batch.execute('DROP TABLE IF EXISTS $chapterTable');
-    batch.execute('''
+  _upgradeChapterTableV2(Database db) async {
+    await db.execute('DROP TABLE IF EXISTS $chapterTable');
+    await db.execute('''
               CREATE TABLE IF NOT EXISTS $chapterTable (
                 chapter_id TEXT PRIMARY KEY NOT NULL,
                 title TEXT NOT NULL,
@@ -64,9 +64,9 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
               ''');
   }
 
-  _upgradePageTableV2(Batch batch) {
-    batch.execute('DROP TABLE IF EXISTS $mangaTable');
-    batch.execute('''
+  _upgradePageTableV2(Database db) async {
+    await db.execute('DROP TABLE IF EXISTS $mangaTable');
+    await db.execute('''
               CREATE TABLE IF NOT EXISTS $pagesTable (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chapter_id TEXT  NOT NULL,
@@ -78,8 +78,8 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
               ''');
   }
 
-  _createMangaAndChapterAndPagesTableV2(Batch batch) {
-    batch.execute('''
+  _createMangaAndChapterAndPagesTableV2(Database db) {
+    db.execute('''
               CREATE TABLE IF NOT EXISTS $mangaTable (
                 mangadex_id TEXT PRIMARY KEY NOT NULL,
                 title TEXT NOT NULL,
@@ -90,7 +90,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
                 cover_link TEXT
               );
             ''');
-    batch.execute('''
+    db.execute('''
               CREATE TABLE IF NOT EXISTS $chapterTable (
                 chapter_id TEXT PRIMARY KEY NOT NULL,
                 title TEXT NOT NULL,
@@ -103,7 +103,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
                 FOREIGN KEY (mangadex_manga_id) REFERENCES Manga (mangadex_id)
               );
               ''');
-    batch.execute('''
+    db.execute('''
               CREATE TABLE IF NOT EXISTS $pagesTable (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 chapter_id TEXT  NOT NULL,
@@ -120,19 +120,22 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     final db = await openDatabase(
       mangaDbName,
       version: 2,
-      onCreate: (db, version) async {
-        var batch = db.batch();
-        _createMangaAndChapterAndPagesTableV2(batch);
-        await batch.commit();
-      },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        var batch = db.batch();
-        _upgradeMangaTableV2(batch);
-        _upgradeChapterTableV2(batch);
-        _upgradePageTableV2(batch);
-        await batch.commit();
-      },
+      // onCreate: (db, version) async {
+      //   var batch = db.batch();
+      //   _createMangaAndChapterAndPagesTableV2(batch);
+      //   await batch.commit();
+      // },
+      // onUpgrade: (db, oldVersion, newVersion) async {
+      //   var batch = db.batch();
+      //   _upgradeMangaTableV2(batch);
+      //   _upgradeChapterTableV2(batch);
+      //   _upgradePageTableV2(batch);
+      //   await batch.commit();
+      // },
     );
+
+    _createMangaAndChapterAndPagesTableV2(db);
+
     return db;
   }
 
