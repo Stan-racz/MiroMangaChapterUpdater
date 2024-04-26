@@ -1,4 +1,5 @@
 import '../model/chapter_model.dart';
+import '../model/pages_model.dart';
 import '../repository/manga_db_repository.dart';
 
 import '../locator.dart';
@@ -59,6 +60,11 @@ class MangaDbService {
     return;
   }
 
+  Future<void> insertBatchPages(List<Pages> pageList) async {
+    await dbRepository.insertBatchPages(pageList);
+    return;
+  }
+
   Future<void> createTables() async {
     dbRepository.getTables();
   }
@@ -86,6 +92,18 @@ class MangaDbService {
 
   Future<void> deleteMangaAndChapters(String mangadexMangaId) async {
     await dbRepository.deleteMangaAndChapters(mangadexMangaId);
+  }
+
+  Future<List<Pages>> getPagesFromChapterId(String chapterId) async {
+    final List<Map<String, dynamic>> pages =
+        await dbRepository.getPagesFromChapterId(chapterId);
+    List<Pages> pageList = [];
+    for (Map<String, dynamic> page in pages) {
+      pageList.add(
+        Pages.fromDb(page),
+      );
+    }
+    return pageList;
   }
 
   Future<void> testTables() async {

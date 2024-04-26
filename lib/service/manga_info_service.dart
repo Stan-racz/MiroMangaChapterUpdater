@@ -6,6 +6,7 @@ import '../locator.dart';
 import '../model/chapter_model.dart';
 import '../model/cover_model.dart';
 import '../model/manga_model.dart';
+import '../model/pages_model.dart';
 import '../repository/manga_db_repository.dart';
 import '../repository/mangadex_api_repository.dart';
 
@@ -69,5 +70,30 @@ class MangaInfoService {
     final Map<String, dynamic> coverMap = jsonDecode(response.toString());
     final Cover cover = Cover.fromJson(coverMap);
     return cover;
+  }
+
+  Future<List<Pages>> getPagesOfChapterFromApi({
+    required String mangadexMangaId,
+    required String chapterId,
+  }) async {
+    final Response response =
+        await repository.getChapterHashAndPages(chapterId);
+
+    final Map<String, dynamic> pagesMap = jsonDecode(response.toString());
+    final String hash = pagesMap['chapter']['hash'];
+    final List<Pages> pageList = [];
+    List<dynamic> pages = pagesMap['chapter']['data'];
+
+    for (var page in pages) {
+      pageList.add(
+        Pages(
+            chapterId: chapterId,
+            hash: hash,
+            data: page,
+            mangadexMangaId: mangadexMangaId),
+      );
+    }
+
+    return pageList;
   }
 }

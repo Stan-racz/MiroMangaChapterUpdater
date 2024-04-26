@@ -5,6 +5,7 @@ import 'package:miro_manga_chapter_update/service/manga_db_service.dart';
 
 import '../../model/chapter_model.dart';
 import '../../model/cover_model.dart';
+import '../../model/pages_model.dart';
 import '../../service/manga_info_service.dart';
 import '../../locator.dart';
 import '../../model/manga_model.dart';
@@ -34,6 +35,7 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
       return;
     }
     try {
+      emit(MangaAddInProgress());
       int insertStatus = await mangaDbService.insertManga(event.manga);
       await _getMangaChaptersFromApiAndInsertInDb(event.manga);
       if (insertStatus == 0) {
@@ -41,8 +43,9 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
       } else {
         emit(AddMangaSuccess());
       }
+      emit(AddMangaState());
     } catch (error) {
-      // emit(AddMangaFailure(error.toString()));
+      debugPrint(error.toString());
     }
   }
 
@@ -89,7 +92,20 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
     try {
       List<Chapter> chapterList =
           await mangaInfoService.getMangaChaptersFromMangaId(manga.mangadexId);
+      List<Pages> pageList = [];
+      for (var chapter in chapterList) {
+        if (chapter.pages != 0) {
+          pageList.addAll(
+            await mangaInfoService.getPagesOfChapterFromApi(
+              chapterId: chapter.chapterId,
+              mangadexMangaId: manga.mangadexId,
+            ),
+          );
+        }
+      }
       await mangaDbService.insertBatchMangaChapters(chapterList);
+      //AJOUTER UN CHECK POUR VOIR SI LA VALEUR PAGE DU CHAPTER != DE 0
+      await mangaDbService.insertBatchPages(pageList);
     } catch (error) {
       debugPrint("_getMangaChaptersFromAPI error : ${error.toString()}");
     }

@@ -5,6 +5,8 @@ class Chapter {
   final String volume;
   int? chapterRead = 0;
   final String mangadexMangaId;
+  int pages;
+  String? externalUrl;
 
   Chapter({
     required this.chapterId,
@@ -13,6 +15,8 @@ class Chapter {
     required this.volume,
     this.chapterRead,
     required this.mangadexMangaId,
+    required this.pages,
+    this.externalUrl,
   });
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
@@ -32,6 +36,8 @@ class Chapter {
       number: number,
       volume: json['attributes']['volume'] ?? "",
       mangadexMangaId: mangadexMangaId,
+      pages: json['attributes']['pages'],
+      externalUrl: json['attributes']['externalUrl'] ?? "",
     );
   }
 
@@ -41,7 +47,9 @@ class Chapter {
         number = query['number'],
         volume = query['volume'],
         chapterRead = query['chapter_read'],
-        mangadexMangaId = query['mangadex_manga_id'];
+        mangadexMangaId = query['mangadex_manga_id'],
+        pages = query['pages'],
+        externalUrl = query['external_url'];
 
   Map<String, dynamic> toJson() {
     return {
@@ -51,6 +59,8 @@ class Chapter {
       'volume': volume,
       'chapter_read': chapterRead,
       'mangadex_manga_id': mangadexMangaId,
+      'pages': pages,
+      'external_url': externalUrl,
     };
   }
 }

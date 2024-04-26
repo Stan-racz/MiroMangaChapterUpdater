@@ -26,13 +26,13 @@ void main() {
 
       List<Chapter> chapterList = [
         Chapter(
-          chapterId: "6210355a-1d80-4efe-aa1b-a13653fd114c",
-          title: "First Times",
-          number: 18.0,
-          volume: "2",
-          chapterRead: 0,
-          mangadexMangaId: "484f94e7-35c3-4cb5-a068-53d684c1439a",
-        ),
+            chapterId: "6210355a-1d80-4efe-aa1b-a13653fd114c",
+            title: "First Times",
+            number: 18.0,
+            volume: "2",
+            chapterRead: 0,
+            mangadexMangaId: "484f94e7-35c3-4cb5-a068-53d684c1439a",
+            pages: 22),
         Chapter(
           chapterId: "6210355a-1d80-4efe-aa1b-a13653fd114c",
           title: "A Hanma's Praise",
@@ -40,6 +40,7 @@ void main() {
           volume: "2",
           chapterRead: 0,
           mangadexMangaId: "484f94e7-35c3-4cb5-a068-53d684c1439a",
+          pages: 21,
         ),
         Chapter(
           chapterId: "6210355a-1d80-4efe-aa1b-a13653fd114c",
@@ -48,6 +49,7 @@ void main() {
           volume: "2",
           chapterRead: 0,
           mangadexMangaId: "484f94e7-35c3-4cb5-a068-53d684c1439a",
+          pages: 21,
         ),
       ];
 

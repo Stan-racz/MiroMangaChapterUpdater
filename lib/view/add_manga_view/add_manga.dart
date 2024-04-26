@@ -53,7 +53,12 @@ class AddMangaViewState extends State<AddMangaView> {
                 ),
                 itemBuilder: (context) => [
                   PopupMenuItem(
-                    child: const Text("Test"),
+                    child: Text(
+                      "Test",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
                     onTap: () {
                       context.read<AddMangaBloc>().add(
                             TestEvent(),
@@ -80,22 +85,32 @@ class AddMangaViewState extends State<AddMangaView> {
               builder: (BuildContext context, AddMangaState state) {
                 if (state is MangaNotFoundState) {
                   Fluttertoast.showToast(
-                      msg: "Erreur : Manga non trouvé",
-                      backgroundColor: Colors.red[300],
-                      textColor: Colors.white,
-                      fontSize: 16);
+                    msg: "Erreur : Manga non trouvé",
+                    backgroundColor: Colors.red[300],
+                    textColor: Colors.white,
+                    fontSize: 16,
+                  );
                 } else if (state is AddMangaSuccess) {
                   Fluttertoast.showToast(
-                      msg: "Manga sauvegardé",
-                      backgroundColor: Colors.grey,
-                      textColor: Colors.black,
-                      fontSize: 16);
+                    msg: "Manga sauvegardé",
+                    backgroundColor: Colors.grey,
+                    textColor: Colors.black,
+                    fontSize: 16,
+                  );
                 } else if (state is MangaAlreadyAdded) {
                   Fluttertoast.showToast(
-                      msg: "Manga déjà sauvegardé",
-                      backgroundColor: Colors.red[300],
-                      textColor: Colors.white,
-                      fontSize: 16);
+                    msg: "Manga déjà sauvegardé",
+                    backgroundColor: Colors.red[300],
+                    textColor: Colors.white,
+                    fontSize: 16,
+                  );
+                } else if (state is MangaAddInProgress) {
+                  Fluttertoast.showToast(
+                    msg: "Sauvegarde du manga en cours",
+                    backgroundColor: Colors.grey,
+                    textColor: Colors.black,
+                    fontSize: 16,
+                  );
                 }
                 return switch (state) {
                   AddMangaInitial() => const SizedBox(),

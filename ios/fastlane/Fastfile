@@ -1,0 +1,24 @@
+platform :ios do
+    desc "Runs all the tests"
+    lane :test do
+        gradle(task: "test")
+    end
+
+    desc "personal lane to deliver app to me only through firebase app distribution"
+    lane :distributeTest do
+        release = firebase_app_distribution(
+            testers: "wazatus@gmail.com",
+            release_notes_file: "../release_scripts/android_release_notes_current.txt",
+            ipa_path: "../release_scripts/Payload.ipa",
+        )
+    end
+
+    desc "distribute beta to testers through firebase app distribution"
+    lane :distribute do
+        release = firebase_app_distribution(
+            groups: "ios-test",
+            release_notes_file: "../release_scripts/android_release_notes_current.txt",
+            ipa_path: "../release_scripts/Payload.ipa",
+        )
+  end
+end

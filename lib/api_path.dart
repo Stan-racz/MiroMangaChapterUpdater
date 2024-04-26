@@ -9,3 +9,7 @@ String getMangaChaptersFromMangaIdPath(String mangadexMangaId) {
 String getCoverLinkFromCoverId(String coverId) {
   return "https://api.mangadex.org/cover/$coverId";
 }
+
+String getChapterHashAndPagesPath(String chapterId) {
+  return "https://api.mangadex.org/at-home/server/$chapterId";
+}

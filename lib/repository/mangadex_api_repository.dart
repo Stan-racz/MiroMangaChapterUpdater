@@ -5,6 +5,7 @@ abstract class MangaInfoRepository {
   Future<Response> getMangaInfoFromTitle(String title);
   Future<Response> getMangaChaptersFromMangaId(String mangadexMangaId);
   Future<Response> getCoverFromCoverId(String coverId);
+  Future<Response> getChapterHashAndPages(String chapterId);
 }
 
 class MangaInfoRepositoryImpl implements MangaInfoRepository {
@@ -12,7 +13,7 @@ class MangaInfoRepositoryImpl implements MangaInfoRepository {
 
   @override
   Future<Response> getMangaInfoFromTitle(String title) async {
-    final response = await dio.get(
+    final Response response = await dio.get(
       getMangaInfoFromTitlePath(title),
     );
     return response;
@@ -20,7 +21,7 @@ class MangaInfoRepositoryImpl implements MangaInfoRepository {
 
   @override
   Future<Response> getMangaChaptersFromMangaId(String mangadexMangaId) async {
-    final response = await dio.get(
+    final Response response = await dio.get(
       getMangaChaptersFromMangaIdPath(mangadexMangaId),
     );
     return response;
@@ -28,7 +29,14 @@ class MangaInfoRepositoryImpl implements MangaInfoRepository {
 
   @override
   Future<Response> getCoverFromCoverId(String coverId) async {
-    final response = await dio.get(getCoverLinkFromCoverId(coverId));
+    final Response response = await dio.get(getCoverLinkFromCoverId(coverId));
+    return response;
+  }
+
+  @override
+  Future<Response> getChapterHashAndPages(String chapterId) async {
+    final Response response =
+        await dio.get(getChapterHashAndPagesPath(chapterId));
     return response;
   }
 }
