@@ -118,7 +118,16 @@ class MyMangasViewState extends State<MyMangasView> {
         ),
       ),
       body: BlocConsumer<MyMangasBloc, MyMangasState>(
-        listener: (BuildContext context, MyMangasState state) {},
+        listener: (BuildContext context, MyMangasState state) {
+          if (state is MangadexDown) {
+            Fluttertoast.showToast(
+              msg: "Erreur : Mangadex Down",
+              backgroundColor: Colors.red[300],
+              textColor: Colors.white,
+              fontSize: 16,
+            );
+          }
+        },
         builder: (BuildContext context, MyMangasState state) {
           return switch (state) {
             MyMangasInitial() => const SizedBox(),

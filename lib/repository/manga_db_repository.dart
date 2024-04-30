@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../model/chapter_model.dart';
@@ -30,7 +31,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   static const String pagesTable = "Pages";
   static const int mangaDbVersion = 1;
 
-  Database? db;
+  // Database? db;
 
   _upgradeMangaTableV2(Database db) async {
     await db.execute('DROP TABLE IF EXISTS $mangaTable');
@@ -305,22 +306,25 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
 
   @override
   Future<void> testTables() async {
-    // final db = await openDatabase(mangaDbName);
+    final db = await openDatabase(mangaDbName);
     // final List<Map<String, Object?>> tables =
     //     await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
 
-    // final List<Map<String, Object?>> queryManga = await db.query(mangaTable);
-    // final List<Map<String, Object?>> queryChapters =
-    //     await db.query(chapterTable);
+    final List<Map<String, Object?>> queryManga = await db
+        .query(mangaTable, where: "title = ?", whereArgs: ["Jujutsu Kaisen"]);
+    // final List<Map<String, Object?>> queryChapters = await db.query(
+    //     chapterTable,
+    //     where: "mangadex_manga_id = ?",
+    //     whereArgs: ["c52b2ce3-7f95-469c-96b0-479524fb7a1a"]);
 
     // final List<Map<String, Object?>> tablesStruct =
     //     await db.rawQuery("pragma table_info('$chapterTable');");
 
-    // final List<Map<String, Object?>> queryPages = await db.query(
-    //   pagesTable,
-    //   // where: 'chapter_id = ?',
-    //   // whereArgs: ["79ec2ae8-149d-4e5a-92ff-8166e05f473e"],
-    // );
+    final List<Map<String, Object?>> queryPages = await db.query(
+      pagesTable,
+      // where: 'chapter_id = ?',
+      // whereArgs: ["5658d9a3-cec3-4094-a348-80ceec2ca0f3"],
+    );
 
     // final List<Map<String, Object?>> sqlVersion =
     //     await db.rawQuery('SELECT sqlite_version()');
@@ -330,13 +334,15 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     // debugPrint(tablesStruct.toString());
 
     // debugPrint(sqlVersion.toString());
+    // print(queryManga)
 
-    // for (var manga in queryManga) {
-    //   debugPrint(manga.toString());
-    //   debugPrint('====================================');
-    // }
+    for (var manga in queryManga) {
+      debugPrint(manga.toString());
+      debugPrint('====================================');
+    }
 
-    // debugPrint("Chapters : $queryChapters");79ec2ae8-149d-4e5a-92ff-8166e05f473e
+    // debugPrint("Chapters : $queryChapters");
+    // 79ec2ae8-149d-4e5a-92ff-8166e05f473e
 
     // debugPrint("Chapters : $queryChapters");
 
@@ -344,9 +350,9 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     //   print(element);
     // }
 
-    // for (var element in queryPages) {
-    //   print(element);
-    // }
+    for (var element in queryPages) {
+      print(element);
+    }
 
     // debugPrint("Pages : $queryPages");
     // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['1453']);

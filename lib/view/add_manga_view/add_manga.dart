@@ -104,6 +104,13 @@ class AddMangaViewState extends State<AddMangaView> {
                     textColor: Colors.white,
                     fontSize: 16,
                   );
+                } else if (state is MangadexDown) {
+                  Fluttertoast.showToast(
+                    msg: "Erreur : Mangadex Down",
+                    backgroundColor: Colors.red[300],
+                    textColor: Colors.white,
+                    fontSize: 16,
+                  );
                 } else if (state is MangaAddInProgress) {
                   Fluttertoast.showToast(
                     msg: "Sauvegarde du manga en cours",
