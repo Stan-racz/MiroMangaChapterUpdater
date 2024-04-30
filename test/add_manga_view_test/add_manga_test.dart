@@ -58,6 +58,8 @@ void main() {
           home: AddMangaView(),
         ),
       ));
+      await tester.pump();
+
       expect(find.byType(AddMangaView), findsOneWidget);
       expect(find.byType(MangaInput), findsOneWidget);
     },

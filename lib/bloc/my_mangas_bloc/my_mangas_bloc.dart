@@ -137,46 +137,53 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
 
     //pour tous les ids de mangas dans ma liste, je récupère les 10
     //derniers chapitres, je les sauvegardes dans la DB puis je les passe
-    for (var id in userMangasId) {
-      dbChapterList.addAll(await mangaDbService.getLatestChapter(id));
-      apiChapterList
-          .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
-    }
+    try {
+      for (var id in userMangasId) {
+        dbChapterList.addAll(await mangaDbService.getLatestChapter(id));
+        apiChapterList
+            .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
+      }
 
-    for (Chapter chapter in dbChapterList) {
-      for (Chapter apiChapter in apiChapterList) {
-        if (chapter.mangadexMangaId == apiChapter.mangadexMangaId) {
-          if (chapter.number < apiChapter.number) {
-            chaptersToInsertInDb.add(apiChapter);
-            if (!mangaIdToNotify.contains(apiChapter.mangadexMangaId)) {
-              mangaIdToNotify.add(apiChapter.mangadexMangaId);
+      for (Chapter chapter in dbChapterList) {
+        for (Chapter apiChapter in apiChapterList) {
+          if (chapter.mangadexMangaId == apiChapter.mangadexMangaId) {
+            if (chapter.number < apiChapter.number) {
+              chaptersToInsertInDb.add(apiChapter);
+              if (!mangaIdToNotify.contains(apiChapter.mangadexMangaId)) {
+                mangaIdToNotify.add(apiChapter.mangadexMangaId);
+              }
             }
           }
         }
       }
-    }
-    mangaDbService.insertBatchMangaChapters(chaptersToInsertInDb);
+      mangaDbService.insertBatchMangaChapters(chaptersToInsertInDb);
 
-    for (String id in mangaIdToNotify) {
-      mangaToNotify
-          .addAll(await mangaDbService.getMangaFromMangadexMangaId(id));
-    }
+      for (String id in mangaIdToNotify) {
+        mangaToNotify
+            .addAll(await mangaDbService.getMangaFromMangadexMangaId(id));
+      }
 
-    for (Manga manga in mangaToNotify) {
-      ReceivedNotification notification = ReceivedNotification(
-        id: DateTime.now().millisecond,
-        title: "Miro Manga Chapter Updater",
-        body: "Nouveau chapitre de ${manga.titre}",
-        payload: "payload",
-      );
-      androidNotif.showNotification(notification,
-          androidNotif.getNewChapterNoSoundPlatformChannelDetails());
-      sleep(const Duration(seconds: 2));
-    }
+      for (Manga manga in mangaToNotify) {
+        ReceivedNotification notification = ReceivedNotification(
+          id: DateTime.now().millisecond,
+          title: "Miro Manga Chapter Updater",
+          body: "Nouveau chapitre de ${manga.titre}",
+          payload: "payload",
+        );
+        androidNotif.showNotification(notification,
+            androidNotif.getNewChapterNoSoundPlatformChannelDetails());
+        sleep(const Duration(seconds: 2));
+      }
 
-    dbChapterList = await mangaDbService.getAllChapters();
-    emit(MyMangasRetrivedWithChaptersFromDb(
-        userMangaList: userMangas, userMangaChapterList: dbChapterList));
+      dbChapterList = await mangaDbService.getAllChapters();
+      emit(MyMangasRetrivedWithChaptersFromDb(
+          userMangaList: userMangas, userMangaChapterList: dbChapterList));
+    } on Exception catch (e) {
+      if (e.toString().contains("503")) {
+        emit(MangadexDown());
+      }
+      emit(MyMangasState());
+    }
   }
 
   void _deleteManga(

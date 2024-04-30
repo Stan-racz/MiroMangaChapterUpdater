@@ -28,6 +28,13 @@ final class MangaLoadingState extends AddMangaState {
   List<Object> get props => [];
 }
 
+final class MangadexDown extends AddMangaState {
+  MangadexDown();
+
+  @override
+  List<Object> get props => [];
+}
+
 final class MangaNotFoundState extends AddMangaState {
   MangaNotFoundState();
 

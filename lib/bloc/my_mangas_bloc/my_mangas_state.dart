@@ -64,3 +64,10 @@ final class ChapterReadState extends MyMangasState {
   @override
   List<Object> get props => [];
 }
+
+final class MangadexDown extends MyMangasState {
+  MangadexDown();
+
+  @override
+  List<Object> get props => [];
+}
