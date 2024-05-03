@@ -8,6 +8,7 @@ import '../../locator.dart';
 import '../../model/chapter_model.dart';
 import '../../model/cover_model.dart';
 import '../../model/manga_model.dart';
+import '../../model/pages_model.dart';
 import '../../service/manga_db_service.dart';
 import '../../service/manga_info_service.dart';
 import 'my_mangas_event.dart';
@@ -126,6 +127,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     List<Chapter> chaptersToInsertInDb = [];
     List<String> mangaIdToNotify = [];
     List<Manga> mangaToNotify = [];
+    List<Pages> pageListToInsertInDb = [];
 
     //je récupère tous les mangas de ma DB
     List<Manga> userMangas = await mangaDbService.getAllMangas();
@@ -149,6 +151,14 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
           if (chapter.mangadexMangaId == apiChapter.mangadexMangaId) {
             if (chapter.number < apiChapter.number) {
               chaptersToInsertInDb.add(apiChapter);
+              if (apiChapter.pages != 0) {
+                pageListToInsertInDb.addAll(
+                  await mangaInfoService.getPagesOfChapterFromApi(
+                    chapterId: apiChapter.chapterId,
+                    mangadexMangaId: apiChapter.mangadexMangaId,
+                  ),
+                );
+              }
               if (!mangaIdToNotify.contains(apiChapter.mangadexMangaId)) {
                 mangaIdToNotify.add(apiChapter.mangadexMangaId);
               }
@@ -156,7 +166,9 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
           }
         }
       }
-      mangaDbService.insertBatchMangaChapters(chaptersToInsertInDb);
+
+      await mangaDbService.insertBatchMangaChapters(chaptersToInsertInDb);
+      await mangaDbService.insertBatchPages(pageListToInsertInDb);
 
       for (String id in mangaIdToNotify) {
         mangaToNotify

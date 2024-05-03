@@ -33,51 +33,51 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
 
   // Database? db;
 
-  _upgradeMangaTableV2(Database db) async {
-    await db.execute('DROP TABLE IF EXISTS $mangaTable');
-    await db.execute('''
-              CREATE TABLE IF NOT EXISTS $mangaTable (
-                mangadex_id TEXT PRIMARY KEY NOT NULL,
-                title TEXT NOT NULL,
-                description TEXT NOT NULL,
-                year TEXT NOT NULL,
-                status TEXT NOT NULL,
-                cover_id TEXT NOT NULL,
-                cover_link TEXT
-              );
-            ''');
-  }
+  // _upgradeMangaTableV2(Database db) async {
+  //   await db.execute('DROP TABLE IF EXISTS $mangaTable');
+  //   await db.execute('''
+  //             CREATE TABLE IF NOT EXISTS $mangaTable (
+  //               mangadex_id TEXT PRIMARY KEY NOT NULL,
+  //               title TEXT NOT NULL,
+  //               description TEXT NOT NULL,
+  //               year TEXT NOT NULL,
+  //               status TEXT NOT NULL,
+  //               cover_id TEXT NOT NULL,
+  //               cover_link TEXT
+  //             );
+  //           ''');
+  // }
 
-  _upgradeChapterTableV2(Database db) async {
-    await db.execute('DROP TABLE IF EXISTS $chapterTable');
-    await db.execute('''
-              CREATE TABLE IF NOT EXISTS $chapterTable (
-                chapter_id TEXT PRIMARY KEY NOT NULL,
-                title TEXT NOT NULL,
-                number REAL NOT NULL,
-                volume TEXT NOT NULL,
-                chapter_read INTEGER NOT NULL,
-                mangadex_manga_id INTEGER,
-                pages INTEGER NOT NULL,
-                external_url TEXT,
-                FOREIGN KEY (mangadex_manga_id) REFERENCES Manga (mangadex_id)
-              );
-              ''');
-  }
+  // _upgradeChapterTableV2(Database db) async {
+  //   await db.execute('DROP TABLE IF EXISTS $chapterTable');
+  //   await db.execute('''
+  //             CREATE TABLE IF NOT EXISTS $chapterTable (
+  //               chapter_id TEXT PRIMARY KEY NOT NULL,
+  //               title TEXT NOT NULL,
+  //               number REAL NOT NULL,
+  //               volume TEXT NOT NULL,
+  //               chapter_read INTEGER NOT NULL,
+  //               mangadex_manga_id INTEGER,
+  //               pages INTEGER NOT NULL,
+  //               external_url TEXT,
+  //               FOREIGN KEY (mangadex_manga_id) REFERENCES Manga (mangadex_id)
+  //             );
+  //             ''');
+  // }
 
-  _upgradePageTableV2(Database db) async {
-    await db.execute('DROP TABLE IF EXISTS $mangaTable');
-    await db.execute('''
-              CREATE TABLE IF NOT EXISTS $pagesTable (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                chapter_id TEXT  NOT NULL,
-                hash TEXT NOT NULL,
-                data REAL NOT NULL,
-                mangadex_manga_id INTEGER,
-                FOREIGN KEY (mangadex_manga_id) REFERENCES Manga (mangadex_id)
-              );
-              ''');
-  }
+  // _upgradePageTableV2(Database db) async {
+  //   await db.execute('DROP TABLE IF EXISTS $mangaTable');
+  //   await db.execute('''
+  //             CREATE TABLE IF NOT EXISTS $pagesTable (
+  //               id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //               chapter_id TEXT  NOT NULL,
+  //               hash TEXT NOT NULL,
+  //               data REAL NOT NULL,
+  //               mangadex_manga_id INTEGER,
+  //               FOREIGN KEY (mangadex_manga_id) REFERENCES Manga (mangadex_id)
+  //             );
+  //             ''');
+  // }
 
   _createMangaAndChapterAndPagesTableV2(Database db) {
     db.execute('''
@@ -320,11 +320,11 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     // final List<Map<String, Object?>> tablesStruct =
     //     await db.rawQuery("pragma table_info('$chapterTable');");
 
-    final List<Map<String, Object?>> queryPages = await db.query(
-      pagesTable,
-      // where: 'chapter_id = ?',
-      // whereArgs: ["5658d9a3-cec3-4094-a348-80ceec2ca0f3"],
-    );
+    // final List<Map<String, Object?>> queryPages = await db.query(
+    //   pagesTable,
+    //   // where: 'chapter_id = ?',
+    //   // whereArgs: ["5658d9a3-cec3-4094-a348-80ceec2ca0f3"],
+    // );
 
     // final List<Map<String, Object?>> sqlVersion =
     //     await db.rawQuery('SELECT sqlite_version()');
@@ -350,11 +350,11 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     //   print(element);
     // }
 
-    for (var element in queryPages) {
-      print(element);
-    }
+    // for (var element in queryPages) {
+    //   print(element);
+    // }
 
     // debugPrint("Pages : $queryPages");
-    // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['1453']);
+    // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['165']);
   }
 }

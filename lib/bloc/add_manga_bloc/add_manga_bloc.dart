@@ -109,7 +109,6 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
         }
       }
       await mangaDbService.insertBatchMangaChapters(chapterList);
-      //AJOUTER UN CHECK POUR VOIR SI LA VALEUR PAGE DU CHAPTER != DE 0
       await mangaDbService.insertBatchPages(pageList);
     } catch (error) {
       debugPrint("_getMangaChaptersFromAPI error : ${error.toString()}");
