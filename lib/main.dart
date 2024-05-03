@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:global/global.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_bloc.dart';
-import 'package:miro_manga_chapter_update/bloc/reader_bloc/reader_bloc.dart';
+import 'bloc/my_mangas_bloc/my_mangas_bloc.dart';
+import 'bloc/reader_bloc/reader_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'bloc/add_manga_bloc/add_manga_bloc.dart';
 import 'bloc/theme_cubit/theme_cubit.dart';
@@ -18,6 +18,7 @@ import 'service/manga_db_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   setupLocator();
   await getIt.allReady();
 
@@ -51,7 +52,12 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
+
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()!
+      .requestNotificationsPermission();
   runApp(const MangaChapterUpdateApp());
 }
 

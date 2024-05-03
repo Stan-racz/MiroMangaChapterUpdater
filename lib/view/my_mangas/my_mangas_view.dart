@@ -86,23 +86,24 @@ class MyMangasViewState extends State<MyMangasView> {
                         .add(GetAllMangasCoverLinksEvent());
                   },
                 ),
-              PopupMenuItem(
-                child: Text(
-                  "Checker le status de mes mangas",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
+              if (kDebugMode)
+                PopupMenuItem(
+                  child: Text(
+                    "Checker le status de mes mangas",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
+                  onTap: () {
+                    //TODO : MMCU-15
+                    Fluttertoast.showToast(
+                        msg:
+                            "Work in progress! Dispo dans les prochaines releases",
+                        backgroundColor: Colors.blue[400],
+                        textColor: Colors.white,
+                        fontSize: 16);
+                  },
                 ),
-                onTap: () {
-                  //TODO : MMCU-15
-                  Fluttertoast.showToast(
-                      msg:
-                          "Work in progress! Dispo dans les prochaines releases",
-                      backgroundColor: Colors.blue[400],
-                      textColor: Colors.white,
-                      fontSize: 16);
-                },
-              ),
             ],
           )
         ],
@@ -143,12 +144,7 @@ class MyMangasViewState extends State<MyMangasView> {
               ),
             MyMangasRetrivedWithChaptersFromDb() => mangaCardWidgetWithChapters(
                 state.userMangaList, state.userMangaChapterList),
-            MyMangasState() => GestureDetector(
-                onVerticalDragEnd: (details) {
-                  context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
-                },
-                child: const SizedBox(),
-              ),
+            MyMangasState() => const SizedBox(),
           };
         },
       ),

@@ -40,10 +40,17 @@
 - Ajout du Dark Mode 
 - Ajout d'une liste dans la page Settings qui permet de choisir entre Light mode/Dark Mode/System mode (l'application s'adapte au thème du terminal utilisateur)
 
-1.3.0 :
+1.3.1 :
 
 - /!\ Vous aurez besoin de désinstaller l'application ou alors d'effacer les données de l'application dans les paramètres avant de la mettre à jour via App Tester :) 
 - Ajout du Manga Reader : Cette nouvelle fonctionnalité permet si le chapitre du manga est publié sur Mangadex de le lire directement dans l'application 
 Si le chapitre n'est pas lisible mais une référence externe est précisée par Mangadex, le manga s'ouvrira dans le navigateur 
 Pour accéder à cette fonctionnalité il suffit de cliquer sur l'icone de livre dans chaque chapitre
 - Sortie de l'application en beta sur iOS
+
+1.3.2 :
+
+- Correction d'un bug où les chapitres ajoutés via la fonction check les chapitres ne possédaient pas les pages si le manga est disponible sur mangadex.
+- Si les notifications sont désactivées dans l'application, ajout d'une pop up pour demander l'autorisation à l'utilisateur de lui envoyer des notifications (pour android 13 et +)
+- Si la pop up n'apparait pas, un bouton dans les settings permet d'ouvrir les paramètres de l'application et activer les notifications si l'utilisateur le souhaite
+- Ajout d'un message toast pour indiquer à l'utilisateur si mangadex est down 
