@@ -7,14 +7,13 @@ class ColorTheme {
       backgroundColor: Colors.white,
       selectedIconTheme: IconThemeData(color: Colors.orange),
       selectedLabelStyle: TextStyle(
-        // color: Colors.orange,
         fontWeight: FontWeight.w500,
       ),
       selectedItemColor: Colors.orange,
       unselectedItemColor: Colors.blueGrey,
     ),
     appBarTheme: AppBarTheme(
-      color: Colors.white,
+      backgroundColor: Colors.white,
       actionsIconTheme: const IconThemeData(color: Colors.black),
       titleTextStyle: GoogleFonts.aBeeZee(
         color: Colors.black,
@@ -58,7 +57,6 @@ class ColorTheme {
       surface: Color.fromARGB(255, 221, 219, 219),
       onSurface: Colors.black,
       tertiary: Colors.white,
-      // onSurfaceVariant: Color.fromARGB(255, 56, 56, 56),
       scrim: Color(0xffB7F2B6),
       onSecondaryContainer: Color.fromARGB(255, 255, 255, 255),
     ),
@@ -75,7 +73,7 @@ class ColorTheme {
       unselectedItemColor: Colors.white24,
     ),
     appBarTheme: AppBarTheme(
-      color: const Color.fromARGB(255, 42, 43, 42),
+      backgroundColor: const Color.fromARGB(255, 42, 43, 42),
       actionsIconTheme: const IconThemeData(color: Colors.orange),
       titleTextStyle: GoogleFonts.aBeeZee(
         color: Colors.orange,

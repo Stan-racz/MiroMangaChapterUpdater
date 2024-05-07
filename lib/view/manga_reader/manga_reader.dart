@@ -72,7 +72,7 @@ class MangaReaderState extends State<MangaReader> {
           },
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
               onPressed: () {
@@ -84,9 +84,11 @@ class MangaReaderState extends State<MangaReader> {
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            Text(
-              "Page ${index + 1}/${widget.chapter.pages}",
-              style: Theme.of(context).textTheme.titleMedium,
+            Center(
+              child: Text(
+                "Page ${index + 1}/${widget.chapter.pages}",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
             IconButton(
               onPressed: () {

@@ -9,13 +9,15 @@ class MangaAddCardTitle extends StatelessWidget {
   final String mangaTitle;
   @override
   Widget build(BuildContext context) {
-    return Text(
-      mangaTitle,
-      style: Theme.of(context).textTheme.titleLarge,
-      textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      maxLines: 3,
+    return Expanded(
+      child: Text(
+        mangaTitle,
+        style: Theme.of(context).textTheme.titleLarge,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 3,
+      ),
     );
   }
 }

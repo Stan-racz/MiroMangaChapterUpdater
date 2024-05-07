@@ -81,8 +81,6 @@ class AddMangaViewState extends State<AddMangaView> {
             BlocConsumer<AddMangaBloc, AddMangaState>(
               listener: (BuildContext context, AddMangaState state) {
                 debugPrint("mdr state $state");
-              },
-              builder: (BuildContext context, AddMangaState state) {
                 if (state is MangaNotFoundState) {
                   Fluttertoast.showToast(
                     msg: "Erreur : Manga non trouvé",
@@ -119,6 +117,8 @@ class AddMangaViewState extends State<AddMangaView> {
                     fontSize: 16,
                   );
                 }
+              },
+              builder: (BuildContext context, AddMangaState state) {
                 return switch (state) {
                   AddMangaInitial() => const SizedBox(),
                   MangaFoundByTitleState() => Expanded(
