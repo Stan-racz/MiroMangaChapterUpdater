@@ -77,7 +77,7 @@ class MangaInfoCardWidget extends StatelessWidget {
                                 ),
                         ),
                 ),
-                Expanded(child: MangaAddCardTitle(mangaTitle: manga.titre)),
+                MangaAddCardTitle(mangaTitle: manga.titre),
               ],
             ),
             MangaAddCardText(

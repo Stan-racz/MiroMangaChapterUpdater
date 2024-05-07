@@ -43,6 +43,7 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
       } else {
         emit(AddMangaSuccess());
       }
+
       emit(AddMangaState());
     } catch (error) {
       debugPrint(error.toString());
@@ -60,14 +61,18 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
 
       await _getAllMangaCoverLinks(mangasFound);
 
-      emit(
-        MangaFoundByTitleState(mangasFound: mangasFound),
-      );
+      if (mangasFound.isNotEmpty) {
+        emit(
+          MangaFoundByTitleState(mangasFound: mangasFound),
+        );
+      } else {
+        emit(MangaNotFoundState());
+      }
+
+      emit(AddMangaState());
     } catch (error) {
       if (error.toString().contains("503")) {
         emit(MangadexDown());
-      } else {
-        emit(MangaNotFoundState());
       }
       emit(AddMangaState());
     }
@@ -100,16 +105,14 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
       List<Pages> pageList = [];
       for (var chapter in chapterList) {
         if (chapter.pages != 0) {
-          pageList.addAll(
-            await mangaInfoService.getPagesOfChapterFromApi(
-              chapterId: chapter.chapterId,
-              mangadexMangaId: manga.mangadexId,
-            ),
+          pageList = await mangaInfoService.getPagesOfChapterFromApi(
+            chapterId: chapter.chapterId,
+            mangadexMangaId: manga.mangadexId,
           );
+          await mangaDbService.insertBatchPages(pageList);
         }
       }
       await mangaDbService.insertBatchMangaChapters(chapterList);
-      await mangaDbService.insertBatchPages(pageList);
     } catch (error) {
       debugPrint("_getMangaChaptersFromAPI error : ${error.toString()}");
     }

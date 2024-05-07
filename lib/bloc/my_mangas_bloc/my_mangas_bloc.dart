@@ -129,16 +129,13 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     List<Manga> mangaToNotify = [];
     List<Pages> pageListToInsertInDb = [];
 
-    //je récupère tous les mangas de ma DB
     List<Manga> userMangas = await mangaDbService.getAllMangas();
-    //Je crée une liste avec tous les ids de ces mangas
+
     List<String> userMangasId = [];
     for (Manga manga in userMangas) {
       userMangasId.add(manga.mangadexId);
     }
 
-    //pour tous les ids de mangas dans ma liste, je récupère les 10
-    //derniers chapitres, je les sauvegardes dans la DB puis je les passe
     try {
       for (var id in userMangasId) {
         dbChapterList.addAll(await mangaDbService.getLatestChapter(id));
@@ -212,10 +209,6 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
         userMangaList: userMangas,
       ),
     );
-    // emit(MangaDeletedState(
-    //   userMangaChapterList: userMangasChapters,
-    //   userMangaList: userMangas,
-    // ));
   }
 
   void _test(

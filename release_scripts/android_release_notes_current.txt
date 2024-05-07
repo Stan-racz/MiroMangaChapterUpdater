@@ -1,7 +1,5 @@
-1.3.2 :
+1.3.3 :
 
 - Pas besoin de réinstaller l'application pour ce correctif.
-- Correction d'un bug où les chapitres ajoutés via la fonction check les chapitres ne possédaient pas les pages si le manga est disponible sur mangadex.
-- Si les notifications sont désactivées dans l'application, ajout d'une pop up pour demander l'autorisation à l'utilisateur de lui envoyer des notifications (pour android 13 et +)
-- Si la pop up n'apparait pas, un bouton dans les settings permet d'ouvrir les paramètres de l'application et activer les notifications si l'utilisateur le souhaite
-- Ajout d'un message toast pour indiquer à l'utilisateur si mangadex est down 
+- Si vous avez des retours ou des bugs à me signaler : https://forms.gle/CLcseygeNww6KmxaA
+- Correction d'un bug ou les chapitres n'avaient pas de pages lorsque le manga était ajouté via la page de recherche de mangas.

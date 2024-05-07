@@ -84,14 +84,6 @@ void main() {
               of: find.byType(Column),
               matching: find.byType(BlocBuilder<ReaderBloc, ReaderState>)),
           findsOneWidget);
-
-      // expect(
-      //     find.descendant(
-      //         of: find.descendant(
-      //             of: find.byType(Column),
-      //             matching: find.byType(BlocBuilder<ReaderBloc, ReaderState>)),
-      //         matching: find.byType(InteractiveViewer)),
-      //     findsOneWidget);
     },
   );
 }
