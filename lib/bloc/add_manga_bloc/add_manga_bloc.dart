@@ -68,8 +68,6 @@ class AddMangaBloc extends Bloc<AddMangaEvent, AddMangaState> {
       } else {
         emit(MangaNotFoundState());
       }
-
-      emit(AddMangaState());
     } catch (error) {
       if (error.toString().contains("503")) {
         emit(MangadexDown());

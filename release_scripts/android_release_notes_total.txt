@@ -58,3 +58,9 @@ Pour accéder à cette fonctionnalité il suffit de cliquer sur l'icone de livre
 1.3.3 :
 
 - Correction d'un bug ou les chapitres n'avaient pas de pages lorsque le manga était ajouté via la page de recherche de mangas.
+
+
+1.3.4 :
+
+- Correction d'un bug ou les chapitres n'avaient pas de pages lorsque le manga était ajouté via la page de recherche de mangas.
+- Correction d'un bug ou les mangas recherchés n'étaient pas affichés
