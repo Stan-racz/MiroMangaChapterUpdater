@@ -250,13 +250,16 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
 
     // final List<Map<String, Object?>> queryManga = await db.query(
     //   mangaTable,
-    //   // where: "title = ?",
-    //   // whereArgs: ["Jujutsu Kaisen"],
+    //   where: "title = ?",
+    //   whereArgs: ["Baki Dou"],
     // );
+    // print(queryManga);
     // final List<Map<String, Object?>> queryChapters = await db.query(
     //     chapterTable,
     //     where: "mangadex_manga_id = ?",
-    //     whereArgs: ["c52b2ce3-7f95-469c-96b0-479524fb7a1a"]);
+    //     whereArgs: ["5e9a2a3e-f992-4af4-a887-cd130460c9e5"]);
+
+    // print(queryChapters);
 
     // final List<Map<String, Object?>> tablesStruct =
     //     await db.rawQuery("pragma table_info('$chapterTable');");
@@ -274,6 +277,11 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     //   // print("===============");
     // }
 
-    // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['165']);
+    // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['151']);
+    // await db.delete(
+    //   pagesTable,
+    //   where: "chapter_id = ? ",
+    //   whereArgs: ["e42eef46-2ac2-4f77-bdfa-3ce2492f0d85"],
+    // );
   }
 }

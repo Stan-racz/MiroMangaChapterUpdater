@@ -16,11 +16,28 @@ class MyMangasView extends StatefulWidget {
   State<MyMangasView> createState() => MyMangasViewState();
 }
 
-class MyMangasViewState extends State<MyMangasView> {
+class MyMangasViewState extends State<MyMangasView>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
     context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
+    }
   }
 
   @override

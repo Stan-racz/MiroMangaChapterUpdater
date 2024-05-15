@@ -7,7 +7,7 @@ import '../../model/chapter_model.dart';
 import '../../model/cover_model.dart';
 import '../../model/pages_model.dart';
 import '../../service/manga_info_service.dart';
-import '../../locator.dart';
+import '../../utils/locator.dart';
 import '../../model/manga_model.dart';
 import 'add_manga_state.dart';
 import 'add_manga_event.dart';

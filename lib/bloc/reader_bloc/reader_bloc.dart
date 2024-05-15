@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../locator.dart';
+import '../../utils/locator.dart';
 import '../../model/pages_model.dart';
 import '../../service/manga_db_service.dart';
 import '../../service/manga_info_service.dart';

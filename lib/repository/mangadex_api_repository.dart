@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../api_path.dart';
+import '../utils/api_path.dart';
 
 abstract class MangaInfoRepository {
   Future<Response> getMangaInfoFromTitle(String title);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miro_manga_chapter_update/bloc/theme_cubit/theme_cubit.dart';
-import 'package:miro_manga_chapter_update/color_theme.dart';
+import 'package:miro_manga_chapter_update/utils/color_theme.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/add_manga.dart';
 import 'package:miro_manga_chapter_update/view/my_mangas/my_mangas_view.dart';
 import 'package:miro_manga_chapter_update/view/settings/settings_view.dart';

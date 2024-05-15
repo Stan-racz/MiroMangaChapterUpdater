@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:miro_manga_chapter_update/notifications/notifications.dart';
 
-import '../../locator.dart';
+import '../../utils/locator.dart';
 import '../../model/chapter_model.dart';
 import '../../model/cover_model.dart';
 import '../../model/manga_model.dart';
@@ -216,5 +216,79 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     Emitter<MyMangasState> emit,
   ) {
     mangaDbService.testTables();
+  }
+
+  Future<bool> backgroundNewChapterCheck() async {
+    bool status = true;
+    AndroidNotif androidNotif = AndroidNotif();
+    List<Chapter> apiChapterList = [];
+    List<Chapter> dbChapterList = [];
+    List<Chapter> chaptersToInsertInDb = [];
+    List<String> mangaIdToNotify = [];
+    List<Manga> mangaToNotify = [];
+    List<Pages> pageListToInsertInDb = [];
+
+    List<Manga> userMangas = await mangaDbService.getAllMangas();
+
+    List<String> userMangasId = [];
+    for (Manga manga in userMangas) {
+      userMangasId.add(manga.mangadexId);
+    }
+
+    try {
+      for (var id in userMangasId) {
+        dbChapterList.addAll(await mangaDbService.getLatestChapter(id));
+        apiChapterList
+            .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
+      }
+
+      for (Chapter chapter in dbChapterList) {
+        for (Chapter apiChapter in apiChapterList) {
+          if (chapter.mangadexMangaId == apiChapter.mangadexMangaId) {
+            if (chapter.number < apiChapter.number) {
+              chaptersToInsertInDb.add(apiChapter);
+              if (apiChapter.pages != 0) {
+                pageListToInsertInDb.addAll(
+                  await mangaInfoService.getPagesOfChapterFromApi(
+                    chapterId: apiChapter.chapterId,
+                    mangadexMangaId: apiChapter.mangadexMangaId,
+                  ),
+                );
+              }
+              if (!mangaIdToNotify.contains(apiChapter.mangadexMangaId)) {
+                mangaIdToNotify.add(apiChapter.mangadexMangaId);
+              }
+            }
+          }
+        }
+      }
+
+      await mangaDbService.insertBatchMangaChapters(chaptersToInsertInDb);
+      await mangaDbService.insertBatchPages(pageListToInsertInDb);
+
+      for (String id in mangaIdToNotify) {
+        mangaToNotify
+            .addAll(await mangaDbService.getMangaFromMangadexMangaId(id));
+      }
+
+      for (Manga manga in mangaToNotify) {
+        ReceivedNotification notification = ReceivedNotification(
+          id: DateTime.now().millisecond,
+          title: "Miro Manga Chapter Updater",
+          body: "Nouveau chapitre de ${manga.titre}",
+          payload: "payload",
+        );
+        androidNotif.showNotification(notification,
+            androidNotif.getNewChapterNoSoundPlatformChannelDetails());
+        sleep(const Duration(seconds: 2));
+      }
+
+      return status;
+    } on Exception catch (e) {
+      if (e.toString().contains("503")) {
+        status = false;
+      }
+      return status;
+    }
   }
 }

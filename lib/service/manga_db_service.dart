@@ -2,7 +2,7 @@ import '../model/chapter_model.dart';
 import '../model/pages_model.dart';
 import '../repository/manga_db_repository.dart';
 
-import '../locator.dart';
+import '../utils/locator.dart';
 import '../model/manga_model.dart';
 
 class MangaDbService {

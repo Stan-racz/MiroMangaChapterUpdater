@@ -1,25 +1,28 @@
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'bloc/my_mangas_bloc/my_mangas_bloc.dart';
-import 'bloc/reader_bloc/reader_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:workmanager/workmanager.dart';
 
 import 'bloc/add_manga_bloc/add_manga_bloc.dart';
+import 'bloc/my_mangas_bloc/my_mangas_bloc.dart';
+import 'bloc/reader_bloc/reader_bloc.dart';
 import 'bloc/theme_cubit/theme_cubit.dart';
-import 'firebase_options.dart';
-import 'locator.dart';
 import 'scaffold.dart';
 import 'service/manga_db_service.dart';
+import 'utils/firebase_options.dart';
+import 'utils/locator.dart' as loc;
+import 'utils/worker_class.dart';
 
 void main() async {
+  final GetIt getIt = GetIt.I;
   WidgetsFlutterBinding.ensureInitialized();
 
-  setupLocator();
+  await loc.setupLocator();
   await getIt.allReady();
 
   await Firebase.initializeApp(
@@ -58,7 +61,32 @@ void main() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
       .requestNotificationsPermission();
+
+  Workmanager().initialize(
+    callbackDispatcher,
+  );
+  Workmanager().registerPeriodicTask(
+    "check_new_chapters",
+    "check_chapter_task",
+    initialDelay: Duration.zero,
+    frequency: const Duration(hours: 6),
+  );
+
   runApp(const MangaChapterUpdateApp());
+}
+
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask(
+    (task, inputData) async {
+      try {
+        return await ChapterCheckBackGroundWorker.checkNewChapters();
+      } catch (err) {
+        debugPrint("error : $err");
+        throw Exception(err);
+      }
+    },
+  );
 }
 
 class MangaChapterUpdateApp extends StatefulWidget {
@@ -80,16 +108,16 @@ class MangaChapterUpdateAppState extends State<MangaChapterUpdateApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AddMangaBloc>(
-          create: (BuildContext context) => AddMangaBloc(),
+          create: (BuildContext context) => loc.getIt<AddMangaBloc>(),
         ),
         BlocProvider<MyMangasBloc>(
-          create: (BuildContext context) => MyMangasBloc(),
+          create: (BuildContext context) => loc.getIt<MyMangasBloc>(),
         ),
         BlocProvider(
-          create: (BuildContext context) => ThemeCubit(),
+          create: (BuildContext context) => loc.getIt<ThemeCubit>(),
         ),
         BlocProvider(
-          create: (BuildContext context) => ReaderBloc(),
+          create: (BuildContext context) => loc.getIt<ReaderBloc>(),
         ),
       ],
       child: const MyScaffold(),
