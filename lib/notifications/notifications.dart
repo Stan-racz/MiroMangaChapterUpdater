@@ -1,6 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import '../locator.dart';
+import '../utils/locator.dart';
 
 class ReceivedNotification {
   ReceivedNotification({

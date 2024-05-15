@@ -7,7 +7,7 @@ import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_bloc.dar
 import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_event.dart';
 import 'package:miro_manga_chapter_update/bloc/add_manga_bloc/add_manga_state.dart';
 import 'package:miro_manga_chapter_update/bloc/my_mangas_bloc/my_mangas_bloc.dart';
-import 'package:miro_manga_chapter_update/locator.dart';
+import 'package:miro_manga_chapter_update/utils/locator.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/add_manga.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/manga_info_card_widget.dart';
 import 'package:miro_manga_chapter_update/view/add_manga_view/manga_input.dart';

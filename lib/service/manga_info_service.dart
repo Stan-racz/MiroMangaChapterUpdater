@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import '../locator.dart';
+import '../utils/locator.dart';
 import '../model/chapter_model.dart';
 import '../model/cover_model.dart';
 import '../model/manga_model.dart';

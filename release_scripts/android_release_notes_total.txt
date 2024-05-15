@@ -64,3 +64,9 @@ Pour accéder à cette fonctionnalité il suffit de cliquer sur l'icone de livre
 
 - Correction d'un bug ou les chapitres n'avaient pas de pages lorsque le manga était ajouté via la page de recherche de mangas.
 - Correction d'un bug ou les mangas recherchés n'étaient pas affichés
+
+1.4.0 :
+
+- Ajout d'un bouton redirigeant vers le formulaire de feedback/bugs dans les settings
+- La fonctionnalité qui check et rajoute les nouveaux chapitres à la base de données s'exécute maintenant toutes les 6h en arrière plan (normalement même si l'app est fermée) ! Vous devrez donc normalement recevoir des notifications de manière autonome si vous les avez acceptés et que vous avez de nouveaux chapitres disponibles pour vos mangas 
+- Les mangas et les chapitres se mettent à jour (si nécessaire) quand l'application passe d'arrière plan au premier plan

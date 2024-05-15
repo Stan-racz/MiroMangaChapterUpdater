@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../bloc/theme_cubit/theme_cubit.dart';
 
@@ -37,7 +38,9 @@ class SettingsViewState extends State<SettingsView> {
           children: [
             darkModeSettings(context),
             settingsDivider(),
-            notificationPermissionButton(),
+            notificationPermissionButton(context),
+            settingsDivider(),
+            feedbackFormLink(context),
             settingsDivider(),
           ],
         ),
@@ -102,7 +105,7 @@ class SettingsViewState extends State<SettingsView> {
     );
   }
 
-  Widget notificationPermissionButton() {
+  Widget notificationPermissionButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8.0, 0, 3.0, 0),
       child: Row(
@@ -124,6 +127,37 @@ class SettingsViewState extends State<SettingsView> {
             ),
             onPressed: () {
               openAppSettings();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget feedbackFormLink(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 3.0, 0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              "Formulaire Feedback/Bugs",
+              style: Theme.of(context).textTheme.bodyMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              softWrap: true,
+            ),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.open_in_new,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            onPressed: () async {
+              final Uri url = Uri.parse("https://forms.gle/nUc1hHihyLdow7FT9");
+              if (!await launchUrl(url)) {
+                throw Exception('Could not launch $url');
+              }
             },
           ),
         ],
