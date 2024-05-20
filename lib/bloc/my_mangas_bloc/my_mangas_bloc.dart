@@ -278,12 +278,12 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
               id: DateTime.now().millisecond,
               title: "Miro Manga Chapter Updater",
               body:
-                  "Nouveau chapitre de ${manga.titre} : ${chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
+                  "Nouveau chapitre de ${manga.titre} : ${chapter.number.toString().endsWith(".0") ? chapter.number.toInt() : chapter.number}",
               payload: chapter.chapterId,
             );
             androidNotif.showNotificationWithActions(
               notification,
-              "Nouveau chapitre de ${manga.titre} : ${chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
+              "Nouveau chapitre de ${manga.titre} : ${chapter.number.toString().endsWith(".0") ? chapter.number.toInt() : chapter.number}",
             );
             sleep(const Duration(seconds: 2));
           }

@@ -60,7 +60,7 @@ class ChapterWidgetState extends State<ChapterWidget> {
           width: MediaQuery.of(context).size.width - 120,
           child: MangaAddCardText(
             widgetText:
-                "Chapitre ${widget.chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
+                "Chapitre ${widget.chapter.number.toString().endsWith(".0") ? widget.chapter.number.toInt() : widget.chapter.number}",
             mangaInfo: widget.chapter.title.isNotEmpty
                 ? widget.chapter.title
                 : "Pas de titre",
@@ -105,7 +105,7 @@ class ChapterWidgetState extends State<ChapterWidget> {
           width: MediaQuery.of(context).size.width - 120,
           child: MangaAddCardText(
             widgetText:
-                "Chapitre ${widget.chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
+                "Chapitre ${widget.chapter.number.toString().endsWith(".0") ? widget.chapter.number.toInt() : widget.chapter.number}",
             mangaInfo: widget.chapter.title.isNotEmpty
                 ? widget.chapter.title
                 : "Pas de titre",
@@ -146,7 +146,7 @@ class ChapterWidgetState extends State<ChapterWidget> {
           width: MediaQuery.of(context).size.width - 70,
           child: MangaAddCardText(
             widgetText:
-                "Chapitre ${widget.chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
+                "Chapitre ${widget.chapter.number.toString().endsWith(".0") ? widget.chapter.number.toInt() : widget.chapter.number}",
             mangaInfo: widget.chapter.title.isNotEmpty
                 ? widget.chapter.title
                 : "Pas de titre",
