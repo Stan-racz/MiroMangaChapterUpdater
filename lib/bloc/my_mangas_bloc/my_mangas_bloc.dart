@@ -48,7 +48,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
         );
       }
     } catch (error) {
-      // emit(AddMangaFailure(error.toString()));
+      debugPrint(error.toString());
     }
   }
 
@@ -214,7 +214,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
   void _test(
     MyMangasTestEvent event,
     Emitter<MyMangasState> emit,
-  ) {
+  ) async {
     mangaDbService.testTables();
   }
 
@@ -242,10 +242,10 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
             .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
       }
 
-      for (Chapter chapter in dbChapterList) {
+      for (Chapter dbChapter in dbChapterList) {
         for (Chapter apiChapter in apiChapterList) {
-          if (chapter.mangadexMangaId == apiChapter.mangadexMangaId) {
-            if (chapter.number < apiChapter.number) {
+          if (dbChapter.mangadexMangaId == apiChapter.mangadexMangaId) {
+            if (dbChapter.number < apiChapter.number) {
               chaptersToInsertInDb.add(apiChapter);
               if (apiChapter.pages != 0) {
                 pageListToInsertInDb.addAll(
@@ -272,23 +272,37 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
       }
 
       for (Manga manga in mangaToNotify) {
-        ReceivedNotification notification = ReceivedNotification(
-          id: DateTime.now().millisecond,
-          title: "Miro Manga Chapter Updater",
-          body: "Nouveau chapitre de ${manga.titre}",
-          payload: "payload",
-        );
-        androidNotif.showNotification(notification,
-            androidNotif.getNewChapterNoSoundPlatformChannelDetails());
-        sleep(const Duration(seconds: 2));
+        for (var chapter in chaptersToInsertInDb) {
+          if (chapter.mangadexMangaId == manga.mangadexId) {
+            ReceivedNotification notification = ReceivedNotification(
+              id: DateTime.now().millisecond,
+              title: "Miro Manga Chapter Updater",
+              body:
+                  "Nouveau chapitre de ${manga.titre} : ${chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
+              payload: chapter.chapterId,
+            );
+            androidNotif.showNotificationWithActions(
+              notification,
+              "Nouveau chapitre de ${manga.titre} : ${chapter.number.toString().replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "")}",
+            );
+            sleep(const Duration(seconds: 2));
+          }
+        }
       }
 
       return status;
     } on Exception catch (e) {
-      if (e.toString().contains("503")) {
-        status = false;
-      }
+      debugPrint(e.toString());
+      status = false;
       return status;
+    }
+  }
+
+  void chapterRead(Chapter chapter) async {
+    if (chapter.chapterRead == 1) {
+      await mangaDbService.updateChapterUnread(chapter.chapterId);
+    } else {
+      await mangaDbService.updateChapterRead(chapter.chapterId);
     }
   }
 }

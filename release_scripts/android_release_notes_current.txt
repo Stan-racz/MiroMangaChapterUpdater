@@ -1,6 +1,6 @@
-1.4.0 :
+1.5.0 :
 
 - Pas besoin de réinstaller l'application pour cette mise à jour
-- Ajout d'un bouton redirigeant vers le formulaire de feedback/bugs dans les settings
-- La fonctionnalité qui check et rajoute les nouveaux chapitres à la base de données s'exécute maintenant toutes les 6h en arrière plan (normalement même si l'app est fermée) ! Vous devrez donc normalement recevoir des notifications de manière autonome si vous les avez acceptés et que vous avez de nouveaux chapitres disponibles pour vos mangas 
-- Les mangas et les chapitres se mettent à jour (si nécessaire) quand l'application passe d'arrière plan au premier plan
+- Nouvelles notifications : 
+- Ajout d'un bouton qui va ouvrir directement le reader ou l'url externe du chapitre lors de l'ouverture de l'application
+- Ajout d'un bouton qui permet de cocher le chapitre depuis la notification si le chapitre a déjà été lu par l'utilisateur

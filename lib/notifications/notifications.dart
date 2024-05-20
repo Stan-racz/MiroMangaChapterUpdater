@@ -75,4 +75,41 @@ class AndroidNotif {
       payload: notification.payload,
     );
   }
+
+  Future<void> showNotificationWithActions(
+    ReceivedNotification notification,
+    String tickerData,
+  ) async {
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'action_notification_id',
+      'action_notification_channel',
+      channelDescription: 'your channel description',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: tickerData,
+      actions: <AndroidNotificationAction>[
+        const AndroidNotificationAction(
+          'read_chapter',
+          'Lire le chapitre',
+          icon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          showsUserInterface: true,
+        ),
+        const AndroidNotificationAction(
+          'chapter_already_read',
+          'Déjà lu',
+          icon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          showsUserInterface: true,
+        ),
+      ],
+    );
+
+    NotificationDetails platformChannelDetails = NotificationDetails(
+      android: androidNotificationDetails,
+    );
+
+    await flutterLocalNotificationsPlugin.show(notification.id,
+        notification.title, notification.body, platformChannelDetails,
+        payload: notification.payload);
+  }
 }

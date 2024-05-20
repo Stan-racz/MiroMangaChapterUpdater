@@ -21,6 +21,7 @@ abstract class MangaDbRepository {
   Future<void> deleteMangaAndChapters(String mangadexMangaId);
   Future<void> insertBatchPages(List<Pages> pageList);
   Future<List<Map<String, dynamic>>> getPagesFromChapterId(String chapterId);
+  Future<List<Map<String, dynamic>>> getChapterFromChapterId(String chapterId);
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
@@ -243,8 +244,20 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
   }
 
   @override
+  Future<List<Map<String, dynamic>>> getChapterFromChapterId(
+      String chapterId) async {
+    final db = await openDatabase(mangaDbName);
+    final List<Map<String, dynamic>> chapter = await db.query(
+      chapterTable,
+      where: 'chapter_id = ?',
+      whereArgs: [chapterId],
+    );
+    return chapter;
+  }
+
+  @override
   Future<void> testTables() async {
-    // final db = await openDatabase(mangaDbName);
+    final db = await openDatabase(mangaDbName);
     // final List<Map<String, Object?>> tables =
     //     await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
 
@@ -257,7 +270,7 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     // final List<Map<String, Object?>> queryChapters = await db.query(
     //     chapterTable,
     //     where: "mangadex_manga_id = ?",
-    //     whereArgs: ["5e9a2a3e-f992-4af4-a887-cd130460c9e5"]);
+    //     whereArgs: ["c52b2ce3-7f95-469c-96b0-479524fb7a1a"]);
 
     // print(queryChapters);
 
@@ -270,14 +283,17 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     //   // whereArgs: ["5439fe65-5b3a-420e-9ef4-27c9bcc49c5a"],
     // );
 
-    // for (var element in queryPages) {
+    // for (var element in queryChapters) {
     //   // debugPrint(element.toString());
     //   // print(queryPages);
-    //   // print(element);
-    //   // print("===============");
+    //   print(element);
+    //   print("===============");
     // }
 
-    // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['151']);
+    await db.delete(chapterTable, where: 'number = ?', whereArgs: ['151']);
+    // await db.delete(chapterTable,
+    //     where: 'chapter_id = ?',
+    //     whereArgs: ['8b923a62-f4c4-4db3-ba95-c3e20806fb48']);
     // await db.delete(
     //   pagesTable,
     //   where: "chapter_id = ? ",

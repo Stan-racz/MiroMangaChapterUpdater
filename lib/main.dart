@@ -14,6 +14,7 @@ import 'bloc/reader_bloc/reader_bloc.dart';
 import 'bloc/theme_cubit/theme_cubit.dart';
 import 'scaffold.dart';
 import 'service/manga_db_service.dart';
+import 'utils/color_theme.dart';
 import 'utils/firebase_options.dart';
 import 'utils/locator.dart' as loc;
 import 'utils/worker_class.dart';
@@ -56,7 +57,24 @@ void main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse:
+        (NotificationResponse notificationResponse) {
+      switch (notificationResponse.notificationResponseType) {
+        case NotificationResponseType.selectedNotification:
+          break;
+        case NotificationResponseType.selectedNotificationAction:
+          if (notificationResponse.actionId == "read_chapter") {
+            chapterReadingStream.add(notificationResponse.payload);
+          }
+          if (notificationResponse.actionId == "chapter_already_read") {
+            updateChapterReadStream.add(notificationResponse.payload);
+          }
+          break;
+      }
+    },
+  );
   flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
@@ -120,7 +138,14 @@ class MangaChapterUpdateAppState extends State<MangaChapterUpdateApp> {
           create: (BuildContext context) => loc.getIt<ReaderBloc>(),
         ),
       ],
-      child: const MyScaffold(),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, mode) => MaterialApp(
+          theme: ColorTheme().lightTheme,
+          darkTheme: ColorTheme().darkTheme,
+          themeMode: mode,
+          home: const MyScaffold(),
+        ),
+      ),
     );
   }
 }
