@@ -106,6 +106,18 @@ class MangaDbService {
     return pageList;
   }
 
+  Future<Chapter> getChapterFromChapterId(String chapterId) async {
+    final List<Map<String, dynamic>> chapters =
+        await dbRepository.getChapterFromChapterId(chapterId);
+    List<Chapter> chapterList = [];
+    for (Map<String, dynamic> chapter in chapters) {
+      chapterList.add(
+        Chapter.fromDb(chapter),
+      );
+    }
+    return chapterList.first;
+  }
+
   Future<void> testTables() async {
     return await dbRepository.testTables();
   }

@@ -42,18 +42,13 @@ class ChapterWidgetState extends State<ChapterWidget> {
   }
 
   void _openMangaReader(BuildContext context, Chapter chapter) {
-    Navigator.of(context).push(MaterialPageRoute<void>(
-      builder: (BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(chapter.title),
-        ),
-        body: Center(
-          child: MangaReader(
-            chapter: chapter,
-          ),
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => MangaReader(
+          chapter: chapter,
         ),
       ),
-    ));
+    );
   }
 
   List<Widget> _getIconButtons(Chapter chapter) {

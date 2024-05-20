@@ -26,18 +26,18 @@ class MyMangasViewState extends State<MyMangasView>
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-  }
-
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.resumed) {
       context.read<MyMangasBloc>().add(GetAllMangasFromDbEvent());
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -67,13 +67,25 @@ class MyMangasViewState extends State<MyMangasView>
               if (kDebugMode)
                 PopupMenuItem(
                   child: Text(
-                    "Test",
+                    "Test DB",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   onTap: () {
                     context.read<MyMangasBloc>().add(MyMangasTestEvent());
+                  },
+                ),
+              if (kDebugMode)
+                PopupMenuItem(
+                  child: Text(
+                    "Test Notif",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  onTap: () {
+                    context.read<MyMangasBloc>().backgroundNewChapterCheck();
                   },
                 ),
               PopupMenuItem(
