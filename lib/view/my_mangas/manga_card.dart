@@ -137,21 +137,44 @@ class MangaCardState extends State<MangaCardWidget> {
               height: 10,
             ),
           ),
-          if (widget.chapterList?.isNotEmpty ?? false)
-            Wrap(
-              runAlignment: WrapAlignment.center,
-              runSpacing: 0,
-              textDirection: TextDirection.ltr,
-              children: widget.chapterList
-                      ?.map((chapter) => ChapterWidget(
-                            chapter: chapter,
-                          ))
-                      .toList() ??
-                  [],
+          ExpansionTile(
+            title: const MangaAddCardText(
+              widgetText: "Chapters",
+              mangaInfo: "",
             ),
+            shape: const Border(),
+            expansionAnimationStyle: AnimationStyle(
+              curve: Curves.slowMiddle,
+              reverseCurve: Curves.easeInOut,
+              duration: Durations.long3,
+            ),
+            children: widget.chapterList
+                    ?.map(
+                      (chapter) => ChapterWidget(
+                        chapter: chapter,
+                      ),
+                    )
+                    .toList() ??
+                [],
+          ),
         ],
       ),
     );
+    //    if (widget.chapterList?.isNotEmpty ?? false)
+    //       Wrap(
+    //         runAlignment: WrapAlignment.center,
+    //         runSpacing: 0,
+    //         textDirection: TextDirection.ltr,
+    //         children: widget.chapterList
+    //                 ?.map((chapter) => ChapterWidget(
+    //                       chapter: chapter,
+    //                     ))
+    //                 .toList() ??
+    //             [],
+    //       ),
+    //   ],
+    // ),
+    // );
   }
 
   void _gotoMangaCoverBigPage(BuildContext context, Manga manga) {
