@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,18 +162,31 @@ class MyMangasViewState extends State<MyMangasView>
         builder: (BuildContext context, MyMangasState state) {
           return switch (state) {
             MyMangasInitial() => const SizedBox(),
-            MyMangasRetrivedFromDb() => ListView.separated(
-                shrinkWrap: true,
-                primary: true,
-                itemCount: state.userMangaList.length,
-                itemBuilder: (context, index) =>
-                    MangaCardWidget(manga: state.userMangaList[index]),
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 10,
-                ),
+            MyMangasRetrivedFromDb() => ReorderableListView(
+                children: state.userMangaList
+                    .map(
+                      (e) => MangaCardWidget(
+                        key: ValueKey(e.mangadexId),
+                        manga: e,
+                      ),
+                    )
+                    .toList(),
+                onReorder: (oldIndex, newIndex) {
+                  setState(
+                    () {
+                      if (oldIndex < newIndex) {
+                        newIndex -= 1;
+                      }
+                      final Manga item = state.userMangaList.removeAt(oldIndex);
+                      state.userMangaList.insert(newIndex, item);
+                    },
+                  );
+                },
               ),
             MyMangasRetrivedWithChaptersFromDb() => mangaCardWidgetWithChapters(
-                state.userMangaList, state.userMangaChapterList),
+                state.userMangaList,
+                state.userMangaChapterList,
+              ),
             MyMangasState() => const SizedBox(),
           };
         },
@@ -194,17 +208,21 @@ Widget mangaCardWidgetWithChapters(
     }
     mangaWidgetList.add(
       MangaCardWidget(
+        key: ValueKey(manga.mangadexId),
         manga: manga,
         chapterList: chaptersOfManga,
       ),
     );
   }
 
-  return ListView.separated(
-    itemCount: mangaWidgetList.length,
-    itemBuilder: (context, index) => mangaWidgetList[index],
-    separatorBuilder: (context, index) => const SizedBox(
-      height: 10,
-    ),
+  return ReorderableListView(
+    children: mangaWidgetList,
+    onReorder: (oldIndex, newIndex) {
+      if (oldIndex < newIndex) {
+        newIndex -= 1;
+      }
+      final MangaCardWidget item = mangaWidgetList.removeAt(oldIndex);
+      mangaWidgetList.insert(newIndex, item);
+    },
   );
 }
