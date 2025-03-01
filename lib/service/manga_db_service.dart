@@ -118,6 +118,16 @@ class MangaDbService {
     return chapterList.first;
   }
 
+  Future<List<String>> getAllMangasIds() async {
+    final List<Map<String, dynamic>> mangaIds =
+        await dbRepository.getAllMangasIds();
+    List<String> mangaIdsList = [];
+    for (var id in mangaIds) {
+      mangaIdsList.add(id.values.single);
+    }
+    return mangaIdsList;
+  }
+
   Future<void> testTables() async {
     return await dbRepository.testTables();
   }

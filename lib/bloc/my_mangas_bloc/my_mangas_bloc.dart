@@ -57,17 +57,15 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     Emitter<MyMangasState> emit,
   ) async {
     try {
-      //je récupère tous les mangas de ma DB
       List<Manga> userMangas = await mangaDbService.getAllMangas();
-      //Je crée une liste avec tous les ids de ces mangas
+
       List<String> userMangasId = [];
       for (Manga manga in userMangas) {
         userMangasId.add(manga.mangadexId);
       }
-      //je crée une liste d'objets chapters
+
       List<Chapter> chapterList = [];
-      //pour tous les ids de mangas dans ma liste, je récupère les 10
-      //derniers chapitres, je les sauvegardes dans la DB puis je les passe
+
       for (var id in userMangasId) {
         chapterList
             .addAll(await mangaInfoService.getMangaChaptersFromMangaId(id));
@@ -228,12 +226,7 @@ class MyMangasBloc extends Bloc<MyMangasEvent, MyMangasState> {
     List<Manga> mangaToNotify = [];
     List<Pages> pageListToInsertInDb = [];
 
-    List<Manga> userMangas = await mangaDbService.getAllMangas();
-
-    List<String> userMangasId = [];
-    for (Manga manga in userMangas) {
-      userMangasId.add(manga.mangadexId);
-    }
+    List<String> userMangasId = await mangaDbService.getAllMangasIds();
 
     try {
       for (var id in userMangasId) {

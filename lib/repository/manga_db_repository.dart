@@ -22,6 +22,7 @@ abstract class MangaDbRepository {
   Future<void> insertBatchPages(List<Pages> pageList);
   Future<List<Map<String, dynamic>>> getPagesFromChapterId(String chapterId);
   Future<List<Map<String, dynamic>>> getChapterFromChapterId(String chapterId);
+  Future<List<Map<String, dynamic>>> getAllMangasIds();
 }
 
 class MangaDbRepositoryImpl implements MangaDbRepository {
@@ -255,9 +256,22 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     return chapter;
   }
 
+  Future<List<Map<String, dynamic>>> getAllMangasIds() async {
+    final db = await openDatabase(mangaDbName);
+    final List<Map<String, dynamic>> mangaIds =
+        await db.query(mangaTable, columns: [
+      "mangadex_id",
+    ]);
+    return mangaIds;
+  }
+
   @override
   Future<void> testTables() async {
     final db = await openDatabase(mangaDbName);
+
+    final List<Map<String, Object?>> queryId =
+        await db.query(mangaTable, columns: ["mangadex_id", "title"]);
+    print(queryId);
     // final List<Map<String, Object?>> tables =
     //     await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table';");
 
@@ -290,7 +304,8 @@ class MangaDbRepositoryImpl implements MangaDbRepository {
     //   print("===============");
     // }
 
-    await db.delete(chapterTable, where: 'number = ?', whereArgs: ['151']);
+    // await db.delete(chapterTable, where: 'number = ?', whereArgs: ['151']);
+
     // await db.delete(chapterTable,
     //     where: 'chapter_id = ?',
     //     whereArgs: ['8b923a62-f4c4-4db3-ba95-c3e20806fb48']);
